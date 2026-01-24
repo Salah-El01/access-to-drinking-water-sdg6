@@ -25,10 +25,11 @@ Analyze global disparities in drinking-water access across **national / urban / 
 - Unimproved and surface water shares are concentrated in rural contexts and low-income countries.
 
 ## Deliverables (PDF exports)
-- Global report (national overview): `reports/Global_2020_Report.pdf`
-- Urban report: `reports/Urban_2020_Report.pdf`
-- Rural report: `reports/Rural_2020_Report.pdf`
-- Income group pivot: `reports/Pivot_Table.pdf`
+- **Full report (Part 1):** [Part 1 – Full Report](reports/Part1_Full_Report.pdf)
+- **Global (National) report:** [Global 2020 Report](reports/Global_2020_Report.pdf)
+- **Urban report:** [Urban 2020 Report](reports/Urban_2020_Report.pdf)
+- **Rural report:** [Rural 2020 Report](reports/Rural_2020_Report.pdf)
+- **Income group pivot summary:** [Pivot Table](reports/Pivot_Table.pdf)
 
 ## Next steps
 - Rebuild Part 1 outputs as an interactive dashboard (Power BI/Tableau) with filters and a “worst-off” ranking view.
