@@ -1,10 +1,20 @@
-# Assets
+# Assets (Figures)
 
-This folder contains screenshots and figures used in the main README to illustrate key results from the SDG 6 drinking-water access analysis (WHO/UNICEF JMP 2020).
+This folder contains the key charts/screenshots used in the main `README.md` to illustrate the SDG 6 (WHO/UNICEF JMP 2020) analysis.
 
-## Contents
-- Population vs urban/rural share (binned by national population size)
-- Urban service-level distribution (stacked composition)
-- Rural service-level distribution (stacked composition)
-- Income group vs service levels (pivot + chart)
-- Summary table of key findings and QA checks
+## Figure index
+
+- **01_population_vs_urban_rural_share.png**  
+  National population (binned) vs. urban and rural population share.
+
+- **02_urban_service_levels_distribution.png**  
+  Urban distribution of drinking-water access by service level (basic / limited / unimproved / surface).
+
+- **03_rural_service_levels_distribution.png**  
+  Rural distribution of drinking-water access by service level (basic / limited / unimproved / surface).
+
+- **04_income_group_vs_service_levels.png**  
+  Income-group comparison of service-level shares (shows the “income gradient” in access).
+
+- **05_key_findings_summary_table.png**  
+  Summary table of key findings (urban–rural gap, income gradient, and data quality checks).
