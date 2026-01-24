@@ -12,6 +12,12 @@ Analyze global disparities in drinking-water access across **national / urban / 
 - Google Sheets (cleaning, feature engineering, pivot tables, visuals)
 - PDF exports for reporting
 
+## Google Sheet (view-only)
+The full working file (data cleaning steps, formulas, pivot tables, and charts) is available here:
+- **Google Sheet:** [View the spreadsheet](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit?usp=sharing)
+
+> Note: This repository contains exported deliverables (PDFs) and figures. The spreadsheet remains the source of truth for the calculations and transformations.
+
 ## Workflow
 - Cleaned and validated the dataset (delimiter inconsistencies, completeness checks, composition sums ≈ 100%)
 - Engineered features (urban/rural shares, population binning)
