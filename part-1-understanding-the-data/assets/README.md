@@ -1,8 +1,8 @@
 # Assets (Figures)
 
-This folder contains the key charts/screenshots used in **Part 1 — Understanding the Data** of the SDG 6 (WHO/UNICEF JMP 2020) analysis.
+This folder contains the key exported figures used in Part 1 — Understanding the Data of the SDG 6 (WHO/UNICEF JMP 2020) analysis.
 
-These figures support the descriptive analysis presented in the Part 1 README and summarize the main findings on drinking-water access across national, urban, rural, and income-group dimensions.
+These visuals support the descriptive analysis presented in the Part 1 documentation and summarize the main patterns in drinking-water access across national, urban, rural, and income-group dimensions.
 
 ## Figure index
 
@@ -19,7 +19,7 @@ These figures support the descriptive analysis presented in the Part 1 README an
   Income-group comparison of drinking-water service-level shares, highlighting the income gradient in access.
 
 - **05_key_findings_summary_table.png**  
-  Summary table of the main findings from Part 1, including the urban–rural gap, income-group gradient, and validation checks.
+  Summary table of the main findings from Part 1, including urban–rural disparities, the income gradient, and validation checks.
 
 ## Notes
 
