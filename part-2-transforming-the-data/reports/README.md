@@ -92,8 +92,8 @@ In practical terms, Part 2 shows that progress in drinking-water access is not o
 - Regional comparison shows that progress is uneven across the world.
 - Sub-Saharan Africa and South Asia are especially important because they combine large populations, major access challenges, and relatively strong improvement rates.
 
-## Position of this folder in the project
+## Role of these reports
 
-This folder represents the **reporting layer** of Part 2. It captures the outputs of the transformation and progress-analysis work conducted after the initial understanding phase in Part 1.
+Together, these reports provide the formal documentation of the Part 2 transformation workflow.
 
-If the `data/` folder documents the source-of-truth spreadsheet and transformation logic, and the `assets/` folder stores the visual outputs and regional table extracts, the `reports/` folder is where the Part 2 transformation results and analytical conclusions are formally documented.
+They show how the original JMP dataset was converted into a progress-analysis dataset through year-difference checks, ARC calculations, full-access classifications, rural–urban comparison, and regional enrichment.
