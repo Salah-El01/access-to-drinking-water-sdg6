@@ -6,7 +6,7 @@ This project analyzes global access to drinking water using data from the **WHO/
 
 The work is organized as a two-part data analysis project. The first part focuses on understanding the structure and inequalities visible in the 2020 drinking-water access data. The second part extends the analysis by transforming a broader 2000–2020 dataset to measure progress over time.
 
-The project was completed in **Google Sheets** and documented through structured reports, visual assets, and GitHub READMEs.
+The project was completed in **Google Sheets** and documented through structured reports, visual assets, and GitHub documentation.
 
 ---
 
@@ -43,7 +43,7 @@ access-to-drinking-water-sdg6/
 │   └── README.md
 │
 └── README.md
-
+```
 ---
 
 ## Part 1 — Understanding the Data
