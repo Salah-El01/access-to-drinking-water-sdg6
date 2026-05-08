@@ -9,6 +9,8 @@ Rather than treating the dataset only as a table of percentages, this reporting 
 ## What this folder contains
 
 ### `Global_2020_Report.pdf`
+[Global_2020_Report.pdf](https://github.com/user-attachments/files/27500618/Global_2020_Report.pdf)
+
 This report presents the global descriptive analysis of the dataset.
 
 It focuses on:
@@ -23,6 +25,8 @@ A key result from this report is that the dataset is highly consistent with offi
 ---
 
 ### `Urban_2020_Report.pdf`
+[Urban_2020_Report.pdf](https://github.com/user-attachments/files/27500627/Urban_2020_Report.pdf)
+
 This report isolates the **urban** service-level structure and examines how drinking-water access behaves when grouped by urban population share.
 
 It highlights that:
@@ -36,6 +40,8 @@ This report supports one of the core conclusions of Part 1: **urban areas tend t
 ---
 
 ### `Rural_2020_Report.pdf`
+[Rural_2020_Report.pdf](https://github.com/user-attachments/files/27500642/Rural_2020_Report.pdf)
+
 This report focuses on the **rural** side of the dataset and is essential for understanding where deprivation is concentrated.
 
 Its main contribution is to show that:
@@ -49,6 +55,8 @@ This report makes clear that the **rural gap is the principal source of inequali
 ---
 
 ### `Pivot_Table.pdf`
+[Pivot_Table.pdf](https://github.com/user-attachments/files/27500694/Pivot_Table.pdf)
+
 This report summarizes the relationship between **income group** and national drinking-water service levels.
 
 It shows a strong income gradient:
@@ -68,6 +76,8 @@ This report provides the strongest quantitative evidence in Part 1 that **income
 ---
 
 ### `Part1_Full_Report.pdf`
+[Part1_Full_Report.pdf](https://github.com/user-attachments/files/27500708/Part1_Full_Report.pdf)
+
 This is the consolidated report for Part 1.
 
 It brings together:
