@@ -1,8 +1,3 @@
-## Access note
-
-The original files are stored in this folder. Some visuals are also linked through GitHub-hosted attachments in the README to ensure they display correctly in the browser.
-
-
 # Assets (Figures)
 
 This folder contains the key exported figures used in Part 1 — Understanding the Data of the SDG 6 (WHO/UNICEF JMP 2020) analysis.
@@ -49,3 +44,4 @@ These visuals support the descriptive analysis presented in the Part 1 documenta
 - These figures were created from the Google Sheets working file used for data cleaning, feature engineering, pivot tables, and visual analysis.
 - They are included here as exported visuals for documentation and reporting purposes.
 - The spreadsheet remains the source of truth for the calculations and transformations behind these figures.
+- The original PNG files are stored in this folder. Some visuals are also linked through GitHub-hosted attachments in the README to ensure they display correctly in the browser.
