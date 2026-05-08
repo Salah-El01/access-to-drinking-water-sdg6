@@ -1,3 +1,8 @@
+## Access note
+
+The original files are stored in this folder. Some visuals and reports are also linked through GitHub-hosted attachments in the README to ensure they display correctly in the browser.
+
+
 # Assets (Figures)
 
 This folder contains the key exported figures used in Part 1 — Understanding the Data of the SDG 6 (WHO/UNICEF JMP 2020) analysis.
