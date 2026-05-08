@@ -1,6 +1,6 @@
 ## Access note
 
-The original files are stored in this folder. Some visuals and reports are also linked through GitHub-hosted attachments in the README to ensure they display correctly in the browser.
+The original files are stored in this folder. Some visuals are also linked through GitHub-hosted attachments in the README to ensure they display correctly in the browser.
 
 
 # Assets (Figures)
