@@ -9,6 +9,7 @@ While Part 1 focused on understanding the 2020 snapshot of access inequalities, 
 ## What this folder contains
 
 ### `Estimates of the use of water (2000-2020).pdf`
+[Estimates of the use of water (2000-2020).pdf](https://github.com/user-attachments/files/27533980/Estimates.of.the.use.of.water.2000-2020.pdf)
 
 This report exports the main transformed working dataset used in Part 2.
 
@@ -26,6 +27,7 @@ This report provides the row-level evidence behind the Part 2 analysis and shows
 ---
 
 ### `Summary.pdf`
+[Summary.pdf](https://github.com/user-attachments/files/27534167/Summary.pdf)
 
 This report presents the main analytical summary for Part 2.
 
@@ -48,6 +50,7 @@ The report also shows that rural ARC is higher on average than urban ARC. This s
 ---
 
 ### `Regions.pdf`
+[Regions.pdf](https://github.com/user-attachments/files/27534216/Regions.pdf)
 
 This report documents the country-to-region lookup table used in Part 2.
 
