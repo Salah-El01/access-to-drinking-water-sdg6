@@ -125,6 +125,7 @@ In practical terms, Part 1 shows that the global drinking-water challenge is not
 - Urban access is generally stronger and more stable across countries than rural access.
 - Rural areas contain a much larger share of the “problem” service levels: limited, unimproved, and surface water.
 - Income group is one of the strongest explanatory dimensions in the dataset, with clear improvement in service quality as income rises.
+- - The original PDF files are stored in this folder. Some reports are also linked through GitHub-hosted attachments in the README to ensure they remain accessible when GitHub does not render the PDF preview correctly.
 
 ## Position of this folder in the project
 
