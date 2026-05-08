@@ -95,6 +95,10 @@ In practical terms, Part 2 shows that progress in drinking-water access is not o
 - Regional comparison shows that progress is uneven across the world.
 - Sub-Saharan Africa and South Asia are especially important because they combine large populations, major access challenges, and relatively strong improvement rates.
 
+## Access note
+
+The original PDF files are stored in this folder to preserve the reporting layer of the project. The report links above use GitHub-hosted attachments to ensure the documents remain accessible when GitHub does not render the PDF preview correctly in the browser.
+
 ## Role of these reports
 
 Together, these reports provide the formal documentation of the Part 2 transformation workflow.
