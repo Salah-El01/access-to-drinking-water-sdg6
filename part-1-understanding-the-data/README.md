@@ -27,7 +27,7 @@ The reports section is divided into two parts:
 
 The main written report is available here:
 
-[Part1_Analytical_Report.md](./analytical_report/Part1_Analytical_Report.md)
+[Part1_Analytical_Report.md](./reports/analytical_report/Part1_Analytical_Report.md)
 
 This report provides the full analytical interpretation of the work completed in Part 1.
 
