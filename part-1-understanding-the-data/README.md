@@ -1,137 +1,117 @@
-# Part 1 — Understanding the Data  
-**Project:** Access to Drinking Water (SDG 6)
+# Reports — Part 1: Understanding the Data
 
-## Overview
-This repository section contains **Part 1** of the *Access to Drinking Water* project, focused on understanding, cleaning, and exploring the 2020 drinking-water access dataset before any deeper transformation or feature engineering work.
+This folder contains the reporting layer of Part 1 of the **Access to Drinking Water** project.
 
-The objective of this phase is to build a solid analytical foundation by examining how access to drinking water varies across countries, area types, and income groups, using structured spreadsheet-based analysis and clear reporting outputs.
+The reports section is divided into two parts:
 
-This part of the project is not only a first exploration of the dataset; it is the stage where data quality issues are identified, key variables are interpreted, summary reports are built, and the first analytical patterns become visible.
-
----
-
-## Project Goal
-The goal of Part 1 is to answer a simple but important question:
-
-**What does the 2020 data reveal about global inequalities in access to drinking water?**
-
-To answer it, this phase focuses on:
-- understanding the dataset structure and variables,
-- checking import quality and fixing formatting issues,
-- identifying missing or inconsistent values,
-- building clean summary tables,
-- comparing access levels across national, urban, and rural contexts,
-- and exploring how drinking-water access changes across income groups.
-
----
-
-## Dataset Context
-The analysis is based on the **WHO/UNICEF Joint Monitoring Programme (JMP) 2020 estimates on the use of water**.
-
-The working dataset includes:
-- country name,
-- year,
-- national population,
-- urban population share,
-- national drinking-water service levels,
-- rural drinking-water service levels,
-- urban drinking-water service levels.
-
-The service-level indicators analyzed in this project are:
-- **At least basic service**
-- **Limited service**
-- **Unimproved service**
-- **Surface water**
-
-Although JMP commonly distinguishes five service levels, the dataset used here groups safely managed and basic services together under **at least basic service**.
-
----
-
-## What Was Done in Part 1
-Part 1 followed a complete exploratory workflow in Google Sheets:
-
-### 1. Data import and structure verification
-- Imported the source CSV into Google Sheets.
-- Verified that the dataset was correctly separated into rows and columns.
-- Detected formatting issues caused by semicolon-separated entries in some rows.
-- Created checks to validate that each row contained the expected number of values.
-
-### 2. Initial cleaning
-- Fixed wrongly imported rows.
-- Preserved missing values explicitly as `NAN` where relevant.
-- Created helper columns to support validation and analysis.
-- Addressed impossible or problematic values, such as national basic-service percentages slightly above 100%, by creating cleaned/rounded versions instead of overwriting original raw values.
-
-### 3. Population exploration
-- Summarized national population values.
-- Compared dataset coverage with the broader global population context.
-- Examined the distribution of urban and rural population shares.
-
-### 4. Access analysis by area
-- Investigated national drinking-water access across the four service levels.
-- Built separate summaries for:
-  - national access,
-  - urban access,
-  - rural access.
-- Compared how access composition changes depending on area type.
-
-### 5. Access analysis by population structure
-- Explored the relationship between population share and service-level composition.
-- Created grouped visual summaries using rounded population-share features.
-
-### 6. Access analysis by income group
-- Built a pivot-table summary by income group.
-- Compared average water-access levels across:
-  - Low income,
-  - Lower middle income,
-  - Upper middle income,
-  - High income economies.
-- Highlighted the income gradient in drinking-water access.
-
-### 7. Reporting and documentation
-- Exported structured report PDFs from the spreadsheet work.
-- Organized assets and report outputs for reproducibility and portfolio presentation.
-- Prepared this project structure so that Part 2 can build on a cleaner and better-understood analytical base.
-
----
-
-## Main Analytical Insight
-The clearest pattern emerging from Part 1 is that **drinking-water access strongly improves as income level rises**.
-
-In broad terms:
-- **high-income countries** are concentrated in very high basic-service coverage,
-- **low-income countries** show much lower average basic access,
-- and the shares of **limited**, **unimproved**, and **surface water** are much more present in poorer countries.
-
-A second major finding is the **urban–rural gap**:
-- urban areas generally show stronger access conditions,
-- while rural areas more often carry the burden of lower-quality service levels.
-
-Together, these patterns show that drinking-water access is shaped by both **economic capacity** and **territorial inequalities**.
+1. **Analytical Report** — a structured written report that explains the methodology, analysis, findings, and conclusions.
+2. **Sheet Exports** — PDF exports of the main Google Sheets analysis tabs, included as supporting documentation for the spreadsheet-based workflow.
 
 ---
 
 ## Folder Structure
-```text
-part-1-understanding-the-data/
-│
-├── assets/
-│   ├── 01_population_vs_urban_rural_share.png
-│   ├── 02_urban_service_levels_distribution.png
-│   ├── 03_rural_service_levels_distribution.png
-│   ├── 04_income_group_vs_service_levels.png
-│   ├── 05_key_findings_summary_table.png
-│   └── README.md
-│
-├── data/
-│   └── README.md
-│
-├── reports/
-│   ├── Global_2020_Report.pdf
-│   ├── Urban_2020_Report.pdf
-│   ├── Rural_2020_Report.pdf
-│   ├── Pivot_Table.pdf
-│   ├── Part1_Full_Report.pdf
-│   └── README.md
-│
-└── README.md
+
+- `analytical_report/`
+  - `Part1_Analytical_Report.md`
+- `sheet_exports/`
+  - `Global 2020 Report.pdf`
+  - `Urban 2020 Report.pdf`
+  - `Rural 2020 Report.pdf`
+  - `Pivot_Table.pdf`
+  - `README.md`
+- `README.md`
+
+---
+
+## Analytical Report
+
+The main written report is available here:
+
+[Part1_Analytical_Report.md](./analytical_report/Part1_Analytical_Report.md)
+
+This report provides the full analytical interpretation of the work completed in Part 1.
+
+It explains:
+
+- the analytical objective
+- the dataset structure
+- the data preparation process
+- the feature engineering logic
+- the global analysis
+- the urban access analysis
+- the rural access analysis
+- the income-group analysis
+- the main findings and limitations
+- future improvement opportunities
+
+This is the primary report to read for a complete understanding of the project.
+
+---
+
+## Sheet Exports
+
+The sheet exports are available here:
+
+[sheet_exports/](./sheet_exports/)
+
+These files are PDF exports of the main Google Sheets analysis tabs.
+
+They preserve the final spreadsheet outputs, including:
+
+- summary tables
+- calculated fields
+- visualizations
+- pivot table outputs
+- sheet-level analysis layouts
+
+The sheet exports are included for transparency and documentation. They show the actual spreadsheet outputs behind the analytical report.
+
+---
+
+## Files Included in Sheet Exports
+
+### Global 2020 Report.pdf
+
+Spreadsheet export of the global analysis sheet.
+
+This export includes population analysis, urban-rural population share comparison, statistical summaries, and national service-level visualizations.
+
+### Urban 2020 Report.pdf
+
+Spreadsheet export of the urban analysis sheet.
+
+This export focuses on urban drinking water access and the distribution of urban populations across basic, limited, unimproved, and surface-water service levels.
+
+### Rural 2020 Report.pdf
+
+Spreadsheet export of the rural analysis sheet.
+
+This export focuses on rural drinking water access and highlights the stronger variability and inequality found in rural service-level distributions.
+
+### Pivot_Table.pdf
+
+Spreadsheet export of the pivot table sheet.
+
+This export summarizes national drinking water access by income group and shows how service-level quality changes across socioeconomic classifications.
+
+---
+
+## How to Use This Folder
+
+For the best review experience:
+
+1. Start with the main analytical report:  
+   [Part1_Analytical_Report.md](./analytical_report/Part1_Analytical_Report.md)
+
+2. Review the visual outputs in the `assets/` folder.
+
+3. Use the sheet exports as supporting evidence for the spreadsheet calculations, visualizations, and pivot table outputs.
+
+---
+
+## Notes
+
+- The analytical report provides the professional interpretation of the project.
+- The sheet exports document the final state of the Google Sheets analysis tabs.
+- The spreadsheet remains the main analytical workspace where calculations, transformations, visualizations, and pivot tables were created.
+- The exported PDFs are included for transparency, reproducibility, and portfolio documentation.
