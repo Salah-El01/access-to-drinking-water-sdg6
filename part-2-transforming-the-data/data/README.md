@@ -323,6 +323,15 @@ Contains:
 [`../README.md`](../README.md)
 
 Provides the full Part 2 project overview, methodology, findings, and navigation.
+---
+
+## Data Dictionary
+
+Detailed documentation for the original and derived variables used in this analysis is available here:
+
+[data_dictionary.md](./data_dictionary.md)
+
+The dictionary documents each variable’s definition, source or derived status, data type, unit, transformation logic, analytical use, and missing-value behavior.
 
 ---
 
