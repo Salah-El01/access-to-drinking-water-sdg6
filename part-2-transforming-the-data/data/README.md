@@ -2,9 +2,9 @@
 
 This folder documents the data layer used in **Part 2 — Transforming the Data** of the **Access to Drinking Water (SDG 6)** project.
 
-The analysis is based on country- and area-level drinking-water access estimates from the **WHO/UNICEF Joint Monitoring Programme (JMP)** covering observations between 2000 and 2020.
+The analysis is based on country- and area-level drinking-water access estimates from the **WHO/UNICEF Joint Monitoring Programme (JMP)**, with observations covering the period from 2000 to 2020.
 
-The full analytical workflow was developed in Google Sheets, including data validation, row-level transformations, Annual Rate of Change calculations, regional enrichment, summary tables, and chart preparation.
+The complete analytical workflow was developed in Google Sheets, including source-data inspection, validation, transformation, feature engineering, regional enrichment, summary calculations, and chart preparation.
 
 ---
 
@@ -14,7 +14,7 @@ The complete analytical workbook is available here:
 
 [View the Google Sheets workbook](https://docs.google.com/spreadsheets/d/1weIUAGJtGo6sjmPyZFFgbhWa5AapxfpWcgB-moQ2_-s/edit?usp=sharing)
 
-The workbook acts as the primary analytical workspace for:
+The workbook is the primary analytical workspace for:
 
 * original source data;
 * transformation formulas;
@@ -33,29 +33,64 @@ The dataset contains drinking-water access observations for countries and territ
 
 The analytical grain is:
 
-> One country or area observation for a specific year.
+> One country or area observed in one specific year.
 
-The dataset is not a complete annual panel. Most observations are concentrated in 2015 and 2020, while a smaller number of countries use other intermediate years.
+The dataset is not a complete annual panel. Most observations are concentrated in 2015 and 2020, while a smaller number of countries use intermediate years such as 2016, 2017, 2018, or 2019.
 
-Because observation intervals differ across countries, the analysis uses a year-difference field to normalize change over time.
+Because the observation interval is not identical for every country, the analysis uses a year-difference field before calculating Annual Rates of Change.
 
 ---
 
 ## Main Data Dimensions
 
-The original dataset includes:
+The original dataset includes the following analytical dimensions:
 
 | Dimension              | Description                                          |
 | ---------------------- | ---------------------------------------------------- |
 | Country or area        | Geographic observation name                          |
 | Year                   | Observation year                                     |
-| National population    | Population estimate, recorded in thousands           |
+| National population    | Population estimate recorded in thousands            |
 | Urban population share | Percentage of the population living in urban areas   |
 | National water access  | Basic, limited, unimproved, and surface-water access |
 | Rural water access     | Rural access across the four service levels          |
 | Urban water access     | Urban access across the four service levels          |
 
-The main Part 2 analysis focuses on access to **at least basic drinking water services** at national, rural, and urban levels.
+The main Part 2 analysis focuses on access to **at least basic drinking-water services** at national, rural, and urban levels.
+
+---
+
+## Main Spreadsheet Sheets
+
+### `Source Data`
+
+Contains the original imported drinking-water dataset.
+
+### `Estimates of the use of water (2000-2020)`
+
+Contains the transformed analytical dataset, including:
+
+* year differences;
+* national, rural, and urban Annual Rates of Change;
+* rounded basic-access fields;
+* full-access classification fields;
+* rural–urban ARC differences;
+* regional classifications.
+
+### `Regions`
+
+Contains the country-to-region reference data used to enrich the transformed dataset.
+
+### `Summary`
+
+Contains:
+
+* year-distribution analysis;
+* year-difference statistics;
+* ARC summary statistics;
+* progress-status counts;
+* rural–urban ARC comparisons;
+* regional summaries;
+* analytical visualizations.
 
 ---
 
@@ -85,7 +120,7 @@ Summary tables and visual analysis
 
 ---
 
-## Derived Features
+## Key Derived Features
 
 ### `y_diff`
 
@@ -98,14 +133,14 @@ y_diff = later year - earlier year
 This field is used to:
 
 * validate observation intervals;
-* detect duplicate country-year rows;
-* normalize Annual Rate of Change calculations.
+* detect duplicate country-year records;
+* provide the denominator for ARC calculations.
 
 ---
 
 ### `ARC_n`
 
-Annual Rate of Change in national access to at least basic drinking water.
+Measures the Annual Rate of Change in national access to at least basic drinking water.
 
 ```text
 ARC_n =
@@ -118,13 +153,27 @@ year difference
 
 ### `ARC_r`
 
-Annual Rate of Change in rural access to at least basic drinking water.
+Measures the Annual Rate of Change in rural access to at least basic drinking water.
+
+```text
+ARC_r =
+(later rural basic access - earlier rural basic access)
+/
+year difference
+```
 
 ---
 
 ### `ARC_u`
 
-Annual Rate of Change in urban access to at least basic drinking water.
+Measures the Annual Rate of Change in urban access to at least basic drinking water.
+
+```text
+ARC_u =
+(later urban basic access - earlier urban basic access)
+/
+year difference
+```
 
 All ARC values are interpreted in:
 
@@ -132,7 +181,7 @@ All ARC values are interpreted in:
 
 ---
 
-### Rounded Basic-Access Features
+### Rounded Basic-Access Fields
 
 The following variables were created to identify approximate full access:
 
@@ -144,7 +193,7 @@ Rounding is necessary because some estimated access values are very close to, or
 
 ---
 
-### Full-Access Classification
+### Full-Access Classification Fields
 
 The following fields identify countries where access was approximately 100% in both observation years:
 
@@ -152,10 +201,10 @@ The following fields identify countries where access was approximately 100% in b
 * `ARC_r_full`
 * `ARC_u_full`
 
-These fields distinguish between:
+These classifications distinguish between:
 
 * zero ARC because access was already complete;
-* zero ARC because access did not improve below full coverage.
+* zero ARC because access remained unchanged below full coverage.
 
 This prevents countries already at full access from being misclassified as stagnant.
 
@@ -179,7 +228,7 @@ Interpretation:
 
 ### `region`
 
-Adds a regional classification to each country through a lookup against the regional reference table.
+Adds a regional classification to each country through a lookup against the `Regions` reference sheet.
 
 This field supports:
 
@@ -187,54 +236,106 @@ This field supports:
 * average national ARC by region;
 * average rural ARC by region;
 * average urban ARC by region;
+* average rural–urban ARC differences;
 * regional population and progress comparisons.
 
 ---
 
-## Main Spreadsheet Sheets
+### `pop_n (Millions)`
 
-The workbook includes the following core sheets:
+Converts national population from thousands into millions for clearer regional tables and charts.
 
-### `Source Data`
+```text
+pop_n (Millions) = pop_n / 1000
+```
 
-Contains the original imported drinking-water dataset.
+This field is used mainly for reporting and visualization.
 
-### `Estimates of the use of water (2000-2020)`
+---
 
-Contains the transformed analytical dataset, including:
+## ARC Interpretation
 
-* `y_diff`;
-* national, rural, and urban ARC;
-* rounded basic-access fields;
-* full-access flags;
-* rural–urban ARC difference;
-* regional classification.
+| ARC result | Meaning                                                              |
+| ---------- | -------------------------------------------------------------------- |
+| `ARC > 0`  | Access improved                                                      |
+| `ARC = 0`  | No measured change or already full access                            |
+| `ARC < 0`  | Access declined                                                      |
+| `Null`     | ARC could not be calculated because required values were unavailable |
 
-### `Regions`
+ARC measures the speed and direction of change. It does not represent the final level of access.
 
-Contains the country-to-region reference data used to enrich the transformed dataset.
+A country can have:
 
-### `Summary`
+* a high ARC and still have low final access;
+* a low ARC because access was already near 100%;
+* a zero ARC because access was already complete;
+* a negative ARC indicating declining access.
 
-Contains:
+---
 
-* year-distribution analysis;
-* year-difference statistics;
-* ARC summary statistics;
-* progress-status counts;
-* rural–urban ARC comparisons;
-* regional summaries;
-* analytical visualizations.
+## Summary Classification Logic
+
+The Summary sheet classifies national, rural, and urban ARC observations into five groups:
+
+| Category     | Definition                                       |
+| ------------ | ------------------------------------------------ |
+| No ARC value | ARC is unavailable or marked `Null`              |
+| Full access  | Basic access rounds to 100% in both observations |
+| ARC = 0      | No measured change, excluding full-access cases  |
+| ARC < 0      | Declining access, excluding full-access cases    |
+| ARC > 0      | Improving access, excluding full-access cases    |
+
+The classifications are designed to account for all valid country pairs.
+
+A validation check can confirm:
+
+```text
+No ARC
++ Full access
++ ARC = 0
++ ARC < 0
++ ARC > 0
+= Total country pairs
+```
+
+---
+
+## Regional Aggregation
+
+The transformed data supports the following regional indicators:
+
+| Regional indicator       | Source fields        | Aggregation |
+| ------------------------ | -------------------- | ----------- |
+| Number of countries      | `name`, `region`     | Count       |
+| Regional population size | `pop_n`, `region`    | Sum         |
+| Average national ARC     | `ARC_n`, `region`    | Average     |
+| Average rural ARC        | `ARC_r`, `region`    | Average     |
+| Average urban ARC        | `ARC_u`, `region`    | Average     |
+| Average ARC difference   | `ARC_diff`, `region` | Average     |
+
+Unless otherwise stated, regional ARC values are simple country-level averages and are not population-weighted.
+
+This means that a small country and a highly populated country can contribute equally to a regional average.
+
+---
+
+## Missing-Value Conventions
+
+| Representation | Meaning                                                         |
+| -------------- | --------------------------------------------------------------- |
+| Blank cell     | No row-level calculation is expected                            |
+| `Null`         | A required source value was unavailable or a calculation failed |
+| `0`            | A valid measured value of zero                                  |
+
+Missing ARC values are not replaced with zero because that would incorrectly classify unavailable observations as no change.
 
 ---
 
 ## Data Quality Considerations
 
-The following issues were considered during transformation:
-
 ### Unequal Observation Intervals
 
-Countries are not necessarily observed over the same time period.
+Countries are not necessarily observed over the same time interval.
 
 The `y_diff` field ensures that access changes are converted into comparable annual rates.
 
@@ -242,29 +343,35 @@ The `y_diff` field ensures that access changes are converted into comparable ann
 
 Some source values are represented as text values such as `Null`.
 
-These values require controlled error handling before performing arithmetic calculations.
+These values require controlled error handling before arithmetic calculations can be performed.
 
 ### Duplicate Country-Year Records
 
-A year difference of zero for the same country can indicate a duplicate or erroneous observation.
+A same-country year difference of zero may indicate a duplicate or erroneous country-year observation.
 
 ### Estimated Values Near 100%
 
 Some basic-access estimates are slightly below or above 100% because of estimation precision.
 
-Rounded features are used when classifying approximate full access.
+Rounded features are used when identifying approximate full access.
 
 ### Exact Country-Name Matching
 
 Row comparisons and regional lookups depend on consistent country names.
 
-Differences in spelling or formatting can prevent valid matches.
+Differences in spelling, punctuation, or formatting can prevent valid matches.
 
 ### Row-Order Dependency
 
-The ARC formulas depend on the data being correctly sorted by country and year.
+ARC formulas depend on the dataset being correctly sorted by country and year.
 
 Changing the row order without revalidating the formulas can produce incorrect comparisons.
+
+### Regional Averaging
+
+Simple regional averages give each country equal weight, regardless of population size.
+
+Regional ARC should therefore not automatically be interpreted as the average progress experienced by every person in that region.
 
 ---
 
@@ -280,19 +387,38 @@ The full working dataset is not duplicated in this folder because the Google She
 * summaries;
 * chart preparation.
 
-Keeping one primary analytical workspace reduces duplication and prevents different versions of the transformed data from becoming inconsistent.
+Keeping one primary analytical workspace reduces duplication and lowers the risk of inconsistent versions.
 
 The repository stores:
 
 * data documentation;
+* the data dictionary;
 * analytical reports;
-* sheet exports;
+* spreadsheet exports;
 * visual assets;
 * country-level regional extracts.
 
-This structure keeps the repository lightweight while preserving transparency into the analytical workflow.
+This structure keeps the repository lightweight while preserving transparency into the completed workflow.
 
-> Full reproducibility depends on continued access to the linked Google Sheets workbook. The repository itself provides documentation and exported evidence of the completed analysis.
+> Full reproducibility depends on continued access to the linked Google Sheets workbook. The repository itself provides detailed documentation and exported evidence of the analysis.
+
+---
+
+## Data Dictionary
+
+Detailed documentation for all original and derived variables is available here:
+
+[data_dictionary.md](./data_dictionary.md)
+
+The data dictionary documents:
+
+* variable definitions;
+* source or derived status;
+* data types;
+* units;
+* transformation logic;
+* analytical uses;
+* missing-value behavior.
 
 ---
 
@@ -300,7 +426,7 @@ This structure keeps the repository lightweight while preserving transparency in
 
 ### Visual Assets
 
-[`../assets/`](../assets/)
+[Open the assets folder](../assets/)
 
 Contains:
 
@@ -310,7 +436,7 @@ Contains:
 
 ### Reports
 
-[`../reports/`](../reports/)
+[Open the reports folder](../reports/)
 
 Contains:
 
@@ -320,27 +446,34 @@ Contains:
 
 ### Main Part 2 README
 
-[`../README.md`](../README.md)
+[Open the Part 2 project overview](../README.md)
 
-Provides the full Part 2 project overview, methodology, findings, and navigation.
+Provides the complete Part 2 overview, methodology, findings, and repository navigation.
+
 ---
 
-## Data Dictionary
+## Units Summary
 
-Detailed documentation for the original and derived variables used in this analysis is available here:
-
-[data_dictionary.md](./data_dictionary.md)
-
-The dictionary documents each variable’s definition, source or derived status, data type, unit, transformation logic, analytical use, and missing-value behavior.
+| Variable group         | Unit                       |
+| ---------------------- | -------------------------- |
+| `year`                 | Calendar year              |
+| `y_diff`               | Years                      |
+| `pop_n`                | Thousands of people        |
+| `pop_n (Millions)`     | Millions of people         |
+| `pop_u`                | Percentage                 |
+| Water-access variables | Percentage                 |
+| ARC variables          | Percentage points per year |
+| `ARC_diff`             | Percentage points per year |
 
 ---
 
 ## Notes
 
-* `pop_n` is stored in thousands in the original dataset.
-* Population values may also be converted into millions for regional visualization.
-* ARC measures the speed of progress, not the final level of access.
-* Regional ARC values are generally based on country-level averages unless otherwise specified.
-* Simple regional averages are not automatically population-weighted.
-* Missing values are retained transparently rather than treated as zero.
-* The analysis is descriptive and exploratory and does not establish causality.
+* The dataset is descriptive and observational.
+* The analysis identifies patterns and associations but does not establish causality.
+* ARC measures the speed and direction of change, not the final access level.
+* A high ARC can coexist with low final access.
+* A low ARC can reflect high baseline access and limited remaining room for improvement.
+* Full-access classifications should be reviewed before interpreting zero ARC values.
+* Missing values are retained transparently and are not treated as zero.
+* Regional summaries should be interpreted alongside population size and country-level records.
