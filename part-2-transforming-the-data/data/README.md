@@ -326,25 +326,6 @@ Provides the full Part 2 project overview, methodology, findings, and navigation
 
 ---
 
-## Recommended Supporting Documentation
-
-A separate data dictionary can be used to document every original and derived variable:
-
-[`data_dictionary.md`](./data_dictionary.md)
-
-Suggested fields include:
-
-* variable name;
-* source or derived status;
-* definition;
-* data type;
-* unit;
-* transformation formula;
-* analytical use;
-* missing-value behavior.
-
----
-
 ## Notes
 
 * `pop_n` is stored in thousands in the original dataset.
