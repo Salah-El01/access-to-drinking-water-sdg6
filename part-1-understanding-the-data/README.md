@@ -69,7 +69,7 @@ The water access variables are grouped into four service levels:
 
 For full variable documentation, see:
 
-[data/data_dictionary.md](./data/data_dictionary.md)
+[data/Data_dictionary.md](./data/Data_dictionary.md)
 
 ---
 
