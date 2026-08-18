@@ -298,10 +298,4 @@ This project demonstrates the following data analysis skills:
 
 ## Final Conclusion
 
-This analysis shows that global drinking water access is generally strong at the national and urban levels, but important inequalities remain.
-
-Urban populations usually have stronger and more stable access to at least basic drinking water. Rural populations show greater variability and higher exposure to limited, unimproved, and surface-water services.
-
-Income group is the strongest explanatory dimension identified in this part of the project. Low-income countries remain more exposed to lower service levels, while high-income countries approach universal basic access.
-
-The main conclusion is that drinking water access inequality is not explained by population size alone. It is more strongly connected to area type, urban-rural structure, and socioeconomic classification.
+I found that income group produced one of the clearest descriptive patterns in the analysis. Basic access increased consistently across higher income classifications, while limited, unimproved and surface-water access declined. However, the grouped averages did not isolate the effect of income from urbanization or other structural factors.
