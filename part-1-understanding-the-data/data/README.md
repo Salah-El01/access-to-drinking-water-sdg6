@@ -1,123 +1,238 @@
 # Data — Part 1: Understanding the Data
 
-This folder documents the dataset used in Part 1 of the **Access to Drinking Water** project.
+This folder documents the data used in Part 1 of the **Access to Drinking Water** project.
 
-The analysis was performed in Google Sheets using a country-level drinking water access dataset for 2020. The dataset includes population estimates, urban population share, income group classification, and drinking water access percentages across national, rural, and urban population groups.
+I completed the data preparation, feature engineering, calculations, aggregations and visualizations in Google Sheets. I use this folder to document the dataset, transformations and data-quality decisions rather than to store a separate static copy of the working data.
 
-The working spreadsheet contains the original dataset, cleaned fields, derived features, summary tables, pivot tables, and visualizations used throughout the analysis.
+---
+
+## Data Source
+
+The project uses country and area-level drinking-water estimates associated with the **WHO/UNICEF Joint Monitoring Programme for Water Supply, Sanitation and Hygiene (JMP)**.
+
+The JMP is responsible for producing comparable national, regional and global estimates for drinking water, sanitation and hygiene.
+
+Official references:
+
+- [WHO/UNICEF JMP Data Portal](https://washdata.org/data)
+- [JMP Drinking-Water Service Ladder](https://washdata.org/topics/drinking-water)
+- [Progress on Household Drinking Water, Sanitation and Hygiene, 2000–2020](https://washdata.org/reports/jmp-2021-wash-households)
+
+The analysis in Part 1 focuses on estimates for **2020**.
 
 ---
 
 ## Working Spreadsheet
 
-The full Google Sheets workbook is available here:
+The complete Google Sheets workbook is available here:
 
-[Open Google Sheets Workbook](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit?usp=sharing)
+[Open the Google Sheets workbook](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit?usp=sharing)
 
-The main dataset is stored in the sheet:
+The principal source dataset is stored in:
 
 `Estimates-on-the-use-of-water-(2020)`
+
+The workbook also contains the following analytical sheets:
+
+- `Global 2020 Report`
+- `Urban 2020 Report`
+- `Rural 2020 Report`
+- `Pivot Table`
 
 ---
 
 ## Dataset Scope
 
-The dataset focuses on drinking water access estimates for 2020.
+I used country and area-level observations to compare:
 
-The analysis uses country-level observations and compares access across:
+- national population size;
+- urban and rural population shares;
+- national drinking-water access;
+- rural drinking-water access;
+- urban drinking-water access;
+- income classifications;
+- four drinking-water service levels.
 
-- national population
-- urban population
-- rural population
-- income groups
-- drinking water service levels
+The analysis is descriptive and focuses on differences between countries and groups rather than individual households.
 
-The main service levels analyzed are:
+---
 
-- **At least basic**
-- **Limited**
-- **Unimproved**
-- **Surface water**
+## Drinking-Water Service Levels
 
-These service levels make it possible to compare higher-quality and lower-quality drinking water access across different population groups.
+The project dataset combines safely managed and basic access into the category **at least basic**.
+
+| Service level | Definition used in the analysis |
+|---|---|
+| At least basic | Drinking water from an improved source where collection requires no more than 30 minutes for a round trip, including safely managed and basic services |
+| Limited | Drinking water from an improved source where collection exceeds 30 minutes for a round trip |
+| Unimproved | Drinking water from an unprotected dug well or unprotected spring |
+| Surface water | Drinking water collected directly from a river, dam, lake, pond, stream, canal or irrigation canal |
+
+These categories describe service levels rather than directly measuring the absolute number of people affected.
 
 ---
 
 ## Main Data Dimensions
 
-The dataset includes the following analytical dimensions:
-
 | Dimension | Description |
 |---|---|
-| Country / area | Country or area name |
-| Income group | Socioeconomic classification of each country or area |
-| National population | Population size estimate, measured in thousands |
+| Country or area | Geographic unit represented by each observation |
+| Reference year | Year associated with the estimate |
+| Income group | Socioeconomic classification used for grouped analysis |
+| National population | Population estimate measured in thousands |
 | Urban population share | Percentage of the population living in urban areas |
-| National water access | Drinking water access distribution at the national level |
-| Rural water access | Drinking water access distribution for rural populations |
-| Urban water access | Drinking water access distribution for urban populations |
+| Rural population share | Derived percentage of the population living in rural areas |
+| National water access | Service distribution for the total national population |
+| Rural water access | Service distribution for rural populations |
+| Urban water access | Service distribution for urban populations |
 
 ---
 
-## Data Preparation Summary
+## Data Preparation Workflow
 
-Several preparation steps were completed before analysis:
+### 1. Import validation
 
-- checked the imported dataset structure
-- validated row completeness using a count field
-- handled missing values and non-numeric entries
-- created derived population features
-- created rural population share from urban population share
-- created rounded variables for aggregation and visualization
-- created cleaned water-access fields for more stable visual outputs
-- summarized access variables using descriptive statistics
-- built pivot tables for income-group analysis
+I checked whether the original delimited dataset was imported into the expected columns.
+
+Some records contained inconsistent separators, causing values to appear in the wrong cells.
+
+### 2. Row-completeness validation
+
+I created `value_cnt` with `COUNTA()` because the source rows contain both text and numeric values.
+
+Representative Google Sheets formula for the original 16-field import range:
+
+`=COUNTA(A2:P2)`
+
+I expected a result of `16` for a correctly imported source row.
+
+I filtered `value_cnt` to identify values different from 16. This exposed five malformed rows that required correction.
+
+### 3. Import correction
+
+I corrected the affected rows by repositioning the values after the inconsistent separator and using:
+
+`Data > Split text to columns`
+
+After the correction, I confirmed that the original imported rows returned the expected completeness count.
+
+### 4. Population feature engineering
+
+I created new population features to support calculation and visualization:
+
+- urban population estimate;
+- rural population share;
+- rounded-up national population in millions;
+- rounded urban-population share;
+- rounded rural-population share.
+
+### 5. Access-variable cleaning
+
+I created cleaned numeric versions of the service-level fields for charting.
+
+The cleaning logic:
+
+- requires all four service-level values to be numeric;
+- excludes incomplete four-service distributions;
+- restricts valid percentages to the 0–100 range;
+- prevents text values from producing charting errors.
+
+### 6. Aggregation and analysis
+
+I used the prepared features to create:
+
+- population comparisons;
+- descriptive-statistics tables;
+- a candlestick chart representing the five-number-summary components;
+- national, urban and rural 100% stacked charts;
+- income-group pivot-table analysis.
 
 ---
 
-## Key Derived Features
+## Key Derived and Validation Features
 
-Several new features were created during the analysis.
+| Feature | Category | Purpose |
+|---|---|---|
+| `value_cnt` | Validation | Counts populated cells in the imported source row |
+| `pop_u_val` | Derived population feature | Estimates the number of urban residents |
+| `pop_r` | Derived population feature | Calculates rural population share |
+| `pop_n (m)` | Derived population feature | Groups national population by rounded-up millions |
+| `pop_u (rounded)` | Grouping feature | Groups observations by rounded urban share |
+| `pop_r (rounded)` | Grouping feature | Groups observations by rounded rural share |
+| `income_group_num` | Sorting feature | Orders income classifications logically |
+| `wat_*_clean` | Cleaned access feature | Provides validated numeric service values for visualization |
 
-| Feature | Purpose |
+---
+
+## Principal Google Sheets Logic
+
+| Feature | Formula or logic |
 |---|---|
-| `value_cnt` | Counts non-empty values in each row to support row validation |
-| `pop_u_val` | Estimates the urban population count from national population and urban share |
-| `pop_r` | Calculates rural population share as the complement of urban share |
-| `pop_n (m)` | Converts national population into a rounded million-based feature for visualization |
-| `pop_u (rounded)` | Rounds urban population share for grouped visual analysis |
-| `pop_r (rounded)` | Rounds rural population share for grouped visual analysis |
-| cleaned water-access fields | Improve chart reliability by reducing issues caused by missing or inconsistent values |
+| Row validation | `=COUNTA(A2:P2)` |
+| Urban population estimate | `=pop_n_cell*pop_u_cell/100` |
+| Rural population share | `=100-pop_u_cell` |
+| Population in rounded-up millions | `=ROUNDUP(pop_n_cell/1000,0)` |
+| Rounded urban share | `=IFERROR(ROUND(pop_u_cell,0),"NAN")` |
+| Rounded rural share | `=IFERROR(ROUND(pop_r_cell,0),"NAN")` |
+| Clean service value | `=IF(COUNT(service_row_range)=4,MIN(100,MAX(0,service_cell)),)` |
+
+The complete formulas with their actual cell references remain available in the Google Sheets workbook.
 
 ---
 
-## Data Quality Considerations
+## Income-Group Ordering
 
-The dataset required several checks before analysis.
+I created `income_group_num` to prevent alphabetical sorting from placing the income categories in an analytically incorrect order.
 
-Main data quality considerations included:
+| `income_group_num` | `income_group` |
+|---:|---|
+| 0 | NAN |
+| 1 | Low income |
+| 2 | Lower middle income |
+| 3 | Upper middle income |
+| 4 | High income |
 
-- missing values represented as text
-- possible formatting issues during import
-- percentage values requiring validation
-- water access categories needing clean numeric values for charting
-- population values requiring unit awareness because `pop_n` is measured in thousands
-
-These checks helped ensure that the analysis was based on consistent and interpretable fields.
+I treated `NAN` as an unclassified category rather than as an income level.
 
 ---
 
-## Relationship to the Project
+## Data-Quality Considerations
 
-The data documented here supports the full Part 1 analysis, including:
+The principal data-quality issues were:
 
-- global population and access analysis
-- urban drinking water access analysis
-- rural drinking water access analysis
-- income-group segmentation
-- visual analysis
-- analytical reporting
+- inconsistent separators during import;
+- five malformed source rows;
+- missing values represented by text such as `NAN`;
+- non-numeric service-level entries;
+- incomplete four-service distributions;
+- population values recorded in thousands;
+- percentages requiring validation within the 0–100 range;
+- unequal numbers of valid observations across analyses.
 
-For detailed variable definitions, see:
+I retained missing values as missing rather than replacing them with zero because zero represents a valid access percentage and would change the analytical meaning.
 
-[data_dictionary.md](./Data_dictionary.md)
+---
+
+## Relationship to the Four Report Sheets
+
+| Report sheet | Main features used |
+|---|---|
+| Global 2020 Report | `pop_n`, `pop_u`, `pop_r`, `pop_n (m)` and the 12 national, rural and urban access variables |
+| Urban 2020 Report | `pop_u`, `pop_u (rounded)` and cleaned urban service fields |
+| Rural 2020 Report | `pop_r`, `pop_r (rounded)` and cleaned rural service fields |
+| Pivot Table | `income_group_num`, `income_group`, `pop_n`, `pop_u` and national service fields |
+
+---
+
+## Reproducibility Notes
+
+- I retained Google Sheets as the main analytical source of truth.
+- I documented the dataset structure and formulas in this folder.
+- I retained missing observations rather than applying unsupported imputation.
+- I used cleaned service-level fields for visualization while preserving the source variables.
+- I documented rounded variables separately because they support grouping but do not replace the original measurements.
+- I interpreted grouped values as country-level averages unless otherwise specified.
+
+For complete variable definitions, see:
+
+[Data Dictionary](./Data_dictionary.md)
