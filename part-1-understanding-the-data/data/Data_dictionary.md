@@ -1,42 +1,110 @@
 # Data Dictionary — Access to Drinking Water
 
-This data dictionary documents the main variables used in Part 1 of the **Access to Drinking Water** analysis.
+This data dictionary documents the source variables, classification fields, derived features, validation fields and cleaned visualization fields I used in Part 1 of the **Access to Drinking Water** project.
 
-The dataset contains country-level estimates for population and drinking water access in 2020.
-
----
-
-## Original Variables
-
-| Variable | Description | Type / Format |
-|---|---|---|
-| `name` | Country or area name | Text |
-| `year` | Reference year of the estimate | Number |
-| `income_group` | Country income classification | Text |
-| `pop_n` | National population size estimate, measured in thousands | Numeric |
-| `pop_u` | Urban population share, expressed as a percentage | Numeric |
-| `wat_bas_n` | National share of population with at least basic drinking water access | Percentage |
-| `wat_lim_n` | National share of population with limited drinking water access | Percentage |
-| `wat_unimp_n` | National share of population with unimproved drinking water access | Percentage |
-| `wat_sur_n` | National share of population relying on surface water | Percentage |
-| `wat_bas_r` | Rural share of population with at least basic drinking water access | Percentage |
-| `wat_lim_r` | Rural share of population with limited drinking water access | Percentage |
-| `wat_unimp_r` | Rural share of population with unimproved drinking water access | Percentage |
-| `wat_sur_r` | Rural share of population relying on surface water | Percentage |
-| `wat_bas_u` | Urban share of population with at least basic drinking water access | Percentage |
-| `wat_lim_u` | Urban share of population with limited drinking water access | Percentage |
-| `wat_unimp_u` | Urban share of population with unimproved drinking water access | Percentage |
-| `wat_sur_u` | Urban share of population relying on surface water | Percentage |
+I completed the analysis in Google Sheets using country and area-level drinking-water estimates for 2020.
 
 ---
 
-## Service-Level Definitions
+## Naming Convention
 
-### At Least Basic
+The water-access variables follow this structure:
 
-Represents the share of the population with access to at least basic drinking water services.
+`wat_[service]_[area]`
 
-In this analysis, this is treated as the highest access category available in the dataset.
+### Service abbreviations
+
+| Abbreviation | Meaning |
+|---|---|
+| `bas` | At least basic |
+| `lim` | Limited |
+| `unimp` | Unimproved |
+| `sur` | Surface water |
+
+### Area suffixes
+
+| Suffix | Meaning |
+|---|---|
+| `_n` | National |
+| `_r` | Rural |
+| `_u` | Urban |
+| `_clean` | Cleaned numeric feature used for analysis or visualization |
+
+For example:
+
+`wat_unimp_r_clean`
+
+represents the cleaned rural percentage of people using unimproved drinking-water sources.
+
+---
+
+# 1. Source Variables
+
+## Identification, Population and Classification
+
+| Variable | Description | Type | Unit |
+|---|---|---|---|
+| `name` | Country or area name | Text | Not applicable |
+| `year` | Reference year of the estimate | Integer | Year |
+| `income_group` | Country or area income classification | Text | Category |
+| `pop_n` | National population estimate | Numeric | Thousands of people |
+| `pop_u` | Urban population share | Numeric | Percentage |
+
+I used `income_group` for socioeconomic segmentation and pivot-table analysis. It is a categorical variable rather than a direct numerical measurement of national income.
+
+---
+
+## National Access Variables
+
+| Variable | Description | Type | Unit |
+|---|---|---|---|
+| `wat_bas_n` | National share with at least basic drinking-water access | Numeric | Percentage |
+| `wat_lim_n` | National share with limited drinking-water access | Numeric | Percentage |
+| `wat_unimp_n` | National share using unimproved drinking-water sources | Numeric | Percentage |
+| `wat_sur_n` | National share using surface water | Numeric | Percentage |
+
+These variables describe drinking-water access for the total national population.
+
+---
+
+## Rural Access Variables
+
+| Variable | Description | Type | Unit |
+|---|---|---|---|
+| `wat_bas_r` | Rural share with at least basic drinking-water access | Numeric | Percentage |
+| `wat_lim_r` | Rural share with limited drinking-water access | Numeric | Percentage |
+| `wat_unimp_r` | Rural share using unimproved drinking-water sources | Numeric | Percentage |
+| `wat_sur_r` | Rural share using surface water | Numeric | Percentage |
+
+These variables describe drinking-water access for rural populations.
+
+---
+
+## Urban Access Variables
+
+| Variable | Description | Type | Unit |
+|---|---|---|---|
+| `wat_bas_u` | Urban share with at least basic drinking-water access | Numeric | Percentage |
+| `wat_lim_u` | Urban share with limited drinking-water access | Numeric | Percentage |
+| `wat_unimp_u` | Urban share using unimproved drinking-water sources | Numeric | Percentage |
+| `wat_sur_u` | Urban share using surface water | Numeric | Percentage |
+
+These variables describe drinking-water access for urban populations.
+
+---
+
+# 2. Drinking-Water Service Definitions
+
+The dataset uses four mutually exclusive service categories that together describe the drinking-water access distribution.
+
+## At Least Basic
+
+At least basic access combines:
+
+- safely managed service;
+- basic service.
+
+It represents drinking water obtained from an improved source where collection requires no more than 30 minutes for a round trip.
 
 Related variables:
 
@@ -44,13 +112,9 @@ Related variables:
 - `wat_bas_r`
 - `wat_bas_u`
 
----
+## Limited
 
-### Limited
-
-Represents the share of the population with limited drinking water access.
-
-Limited access indicates that water is available, but service conditions are below the at least basic threshold.
+Limited service represents drinking water obtained from an improved source where collection requires more than 30 minutes for a round trip, including queuing time.
 
 Related variables:
 
@@ -58,13 +122,9 @@ Related variables:
 - `wat_lim_r`
 - `wat_lim_u`
 
----
+## Unimproved
 
-### Unimproved
-
-Represents the share of the population relying on unimproved drinking water sources.
-
-This category indicates lower-quality access and is used as an important indicator of water access inequality.
+Unimproved service represents drinking water obtained from an unprotected dug well or unprotected spring.
 
 Related variables:
 
@@ -72,13 +132,17 @@ Related variables:
 - `wat_unimp_r`
 - `wat_unimp_u`
 
----
+## Surface Water
 
-### Surface Water
+Surface-water service represents drinking water collected directly from sources such as:
 
-Represents the share of the population relying directly on surface water sources.
-
-This is the lowest service category in the analysis and indicates the most severe access limitations.
+- rivers;
+- dams;
+- lakes;
+- ponds;
+- streams;
+- canals;
+- irrigation canals.
 
 Related variables:
 
@@ -86,137 +150,321 @@ Related variables:
 - `wat_sur_r`
 - `wat_sur_u`
 
+Official definition:
+
+[JMP Drinking-Water Service Ladder](https://washdata.org/topics/drinking-water)
+
 ---
 
-## Area-Level Variable Groups
+# 3. Validation Feature
 
-### National Access Variables
+## `value_cnt`
 
-| Variable | Description |
+| Attribute | Documentation |
 |---|---|
-| `wat_bas_n` | National at least basic access |
-| `wat_lim_n` | National limited access |
-| `wat_unimp_n` | National unimproved access |
-| `wat_sur_n` | National surface-water access |
+| Category | Validation feature |
+| Function | `COUNTA()` |
+| Representative formula | `=COUNTA(A2:P2)` |
+| Expected source-row result | `16` |
+| Purpose | Detect incorrectly imported or incomplete source rows |
 
-These variables describe drinking water access for the total national population.
+I used `COUNTA()` rather than `COUNT()` because the source rows contain both text and numeric values.
+
+I filtered `value_cnt` to exclude the expected result of 16. This isolated five rows affected by inconsistent separators during import.
+
+I corrected the affected rows by repositioning the displaced values and using:
+
+`Data > Split text to columns`
+
+After correcting them, I verified that the source rows returned the expected completeness count.
 
 ---
 
-### Rural Access Variables
+# 4. Derived Population Features
 
-| Variable | Description |
+## `pop_u_val`
+
+| Attribute | Documentation |
 |---|---|
-| `wat_bas_r` | Rural at least basic access |
-| `wat_lim_r` | Rural limited access |
-| `wat_unimp_r` | Rural unimproved access |
-| `wat_sur_r` | Rural surface-water access |
+| Category | Derived calculation |
+| Logic | `pop_n × pop_u ÷ 100` |
+| Google Sheets pattern | `=pop_n_cell*pop_u_cell/100` |
+| Unit | Thousands of people |
+| Purpose | Estimate the urban population represented by each observation |
 
-These variables describe drinking water access for rural populations.
+Because `pop_n` is measured in thousands, the calculated `pop_u_val` also remains in thousands.
 
 ---
 
-### Urban Access Variables
+## `pop_r`
 
-| Variable | Description |
+| Attribute | Documentation |
 |---|---|
-| `wat_bas_u` | Urban at least basic access |
-| `wat_lim_u` | Urban limited access |
-| `wat_unimp_u` | Urban unimproved access |
-| `wat_sur_u` | Urban surface-water access |
+| Category | Derived percentage |
+| Logic | `100 - pop_u` |
+| Google Sheets pattern | `=100-pop_u_cell` |
+| Unit | Percentage |
+| Purpose | Calculate rural population share |
 
-These variables describe drinking water access for urban populations.
+This calculation assumes that the total population is divided into two complementary area types:
 
----
-
-## Derived Variables
-
-| Derived Variable | Formula / Logic | Purpose |
-|---|---|---|
-| `value_cnt` | `COUNTA(row_range)` | Counts non-empty cells in each row to validate row completeness |
-| `pop_u_val` | `pop_n * pop_u / 100` | Estimates the urban population count |
-| `pop_r` | `100 - pop_u` | Calculates rural population share |
-| `pop_n (m)` | rounded national population in millions | Improves readability in population-based charts |
-| `pop_u (rounded)` | rounded urban population share | Supports grouped urban visualization |
-| `pop_r (rounded)` | rounded rural population share | Supports grouped rural visualization |
-| cleaned access fields | numeric cleaned versions of service-level variables | Supports stable visualization and analysis |
+`pop_u + pop_r = 100%`
 
 ---
 
-## Important Unit Notes
+## `pop_n (m)`
 
-### National Population
+| Attribute | Documentation |
+|---|---|
+| Category | Derived grouping feature |
+| Function | `ROUNDUP()` |
+| Google Sheets pattern | `=ROUNDUP(pop_n_cell/1000,0)` |
+| Unit | Millions of people |
+| Purpose | Improve population-chart readability and aggregation |
 
-`pop_n` is measured in **thousands**.
+I divided `pop_n` by 1,000 because the source population is measured in thousands.
 
-Example:
+I used `ROUNDUP()` rather than `ROUND()` because the project required the population estimate to be rounded upward to the nearest million.
 
-If `pop_n = 53,771`, the estimated population is approximately:
+I retained `pop_n` as the original measurement and used `pop_n (m)` only for grouping and visualization.
+
+---
+
+## `pop_u (rounded)`
+
+| Attribute | Documentation |
+|---|---|
+| Category | Derived grouping feature |
+| Function | `ROUND()` |
+| Google Sheets pattern | `=IFERROR(ROUND(pop_u_cell,0),"NAN")` |
+| Unit | Whole percentage point |
+| Purpose | Group countries with similar urban-population shares |
+
+I used the rounded feature for chart aggregation while retaining the original `pop_u` value for calculations.
+
+---
+
+## `pop_r (rounded)`
+
+| Attribute | Documentation |
+|---|---|
+| Category | Derived grouping feature |
+| Function | `ROUND()` |
+| Google Sheets pattern | `=IFERROR(ROUND(pop_r_cell,0),"NAN")` |
+| Unit | Whole percentage point |
+| Purpose | Group countries with similar rural-population shares |
+
+I used the rounded feature for chart aggregation while retaining the original `pop_r` value for calculations.
+
+---
+
+# 5. Income-Group Sorting Feature
+
+## `income_group_num`
+
+I created `income_group_num` to arrange the income classifications logically rather than alphabetically.
+
+| `income_group_num` | `income_group` |
+|---:|---|
+| 0 | NAN |
+| 1 | Low income |
+| 2 | Lower middle income |
+| 3 | Upper middle income |
+| 4 | High income |
+
+I used this variable only for sorting. The numerical values do not imply that the distance between income groups is equal.
+
+I treated `NAN` as an unclassified category rather than as an income level. I therefore excluded it from interpretations of the ordered income progression.
+
+---
+
+# 6. Cleaned Access Features
+
+I created cleaned numeric service fields for the national, urban and rural visualizations.
+
+## National Cleaned Variables
+
+- `wat_bas_n_clean`
+- `wat_lim_n_clean`
+- `wat_unimp_n_clean`
+- `wat_sur_n_clean`
+
+## Urban Cleaned Variables
+
+- `wat_bas_u_clean`
+- `wat_lim_u_clean`
+- `wat_unimp_u_clean`
+- `wat_sur_u_clean`
+
+## Rural Cleaned Variables
+
+- `wat_bas_r_clean`
+- `wat_lim_r_clean`
+- `wat_unimp_r_clean`
+- `wat_sur_r_clean`
+
+## Cleaning Logic
+
+A representative Google Sheets formula for the first service value in a four-service row is:
+
+`=IF(COUNT($D2:$G2)=4,MIN(100,MAX(0,$D2)),)`
+
+I copied this logic across the four service columns while changing the final service-cell reference.
+
+The formula performs three controls:
+
+1. `COUNT($D2:$G2)=4` confirms that all four service values are numeric.
+2. `MAX(0,$D2)` prevents a percentage below 0%.
+3. `MIN(100,...)` prevents a percentage above 100%.
+
+If the four-service row is incomplete, the formula returns a blank cell rather than replacing the missing value with zero.
+
+This distinction is important:
+
+- blank means unavailable or excluded;
+- zero means a valid measured percentage of 0%.
+
+---
+
+# 7. Important Unit Notes
+
+## National Population
+
+`pop_n` is measured in thousands.
+
+For example, if:
+
+`pop_n = 53,771`
+
+then the estimated national population is approximately:
 
 `53,771,000 people`
 
-This unit is important when comparing dataset population values with external population estimates or when calculating derived population counts.
+or:
+
+`53.771 million people`
 
 ---
 
-### Urban Population Share
+## Population Shares
 
-`pop_u` is a percentage.
+The following variables are percentages:
 
-When using it in calculations, it must be divided by 100.
+- `pop_u`
+- `pop_r`
+- all `wat_*` variables.
 
-Example:
+A percentage must be divided by 100 when it is used to estimate a population count.
 
-`pop_u_val = pop_n * pop_u / 100`
+For example:
 
----
-
-### Rural Population Share
-
-Rural population share is derived from urban population share.
-
-Formula:
-
-`pop_r = 100 - pop_u`
-
-This works because the population is treated as divided into two complementary area types:
-
-- urban
-- rural
+`pop_u_val = pop_n × pop_u ÷ 100`
 
 ---
 
-## Cleaned Water Access Fields
+## Drinking-Water Access Variables
 
-Cleaned water-access variables were used for visualizations to reduce issues caused by:
+The access fields represent percentage distributions rather than population totals.
 
-- missing values
-- text values such as `NAN`
-- non-numeric entries
-- inconsistent percentage values
-- charting errors
-
-These cleaned fields helped ensure that the visual outputs represented valid numeric access shares.
+An average percentage calculated across countries should not be interpreted as a population-weighted global percentage unless population weighting is applied separately.
 
 ---
 
-## Analytical Use of Variables
+# 8. Analytical Use of Variables
 
-| Analysis Area | Main Variables Used |
+| Analysis | Main variables |
 |---|---|
-| Population structure | `pop_n`, `pop_u`, `pop_r`, `pop_n (m)` |
-| Urban access analysis | `pop_u (rounded)`, `wat_bas_u`, `wat_lim_u`, `wat_unimp_u`, `wat_sur_u` |
-| Rural access analysis | `pop_r (rounded)`, `wat_bas_r`, `wat_lim_r`, `wat_unimp_r`, `wat_sur_r` |
-| National access analysis | `pop_n`, `wat_bas_n`, `wat_lim_n`, `wat_unimp_n`, `wat_sur_n` |
-| Income-group analysis | `income_group`, `pop_n`, `pop_u`, `wat_bas_n`, `wat_lim_n`, `wat_unimp_n`, `wat_sur_n` |
-| Summary statistics | all national, rural, and urban water access variables |
+| Population completeness validation | `value_cnt` |
+| Urban population estimation | `pop_n`, `pop_u`, `pop_u_val` |
+| Urban-rural population structure | `pop_n (m)`, `pop_u`, `pop_r` |
+| National access visualization | `pop_n (m)` and national cleaned service fields |
+| Urban access visualization | `pop_u (rounded)` and urban cleaned service fields |
+| Rural access visualization | `pop_r (rounded)` and rural cleaned service fields |
+| Area-level descriptive statistics | The 12 national, rural and urban source access variables |
+| Income-group pivot analysis | `income_group_num`, `income_group`, `pop_n`, `pop_u` and national access variables |
 
 ---
 
-## Notes
+# 9. Relationship to the Report Sheets
 
-- The dataset is analyzed at country or area level.
-- Water access values are expressed as percentage shares.
-- The four service levels are treated as components of the full access distribution.
-- The analysis is descriptive and exploratory.
-- The working spreadsheet remains the main place where transformations, calculations, and visualizations were performed.
+## Global 2020 Report
+
+I used:
+
+- `pop_n`
+- `pop_u`
+- `pop_r`
+- `pop_n (m)`
+- the 12 national, rural and urban access variables
+- cleaned national service fields
+
+These variables support population comparisons, summary statistics, the area-level distribution analysis and the national service-level visualization.
+
+## Urban 2020 Report
+
+I used:
+
+- `pop_u`
+- `pop_u (rounded)`
+- cleaned urban service fields
+
+These variables support the grouped urban service-level visualization.
+
+## Rural 2020 Report
+
+I used:
+
+- `pop_r`
+- `pop_r (rounded)`
+- cleaned rural service fields
+
+These variables support the grouped rural service-level visualization.
+
+## Pivot Table
+
+I used:
+
+- `income_group_num`
+- `income_group`
+- `pop_n`
+- `pop_u`
+- national drinking-water access variables
+
+These variables support income-group ordering, population aggregation and average national access comparisons.
+
+---
+
+# 10. Missing-Value Treatment
+
+Missing or invalid service values can appear as:
+
+- blank cells;
+- text such as `NAN`;
+- non-numeric imported values.
+
+I did not automatically replace missing values with zero because zero represents a valid access percentage.
+
+For visualizations requiring a complete four-service distribution, I included an observation only when all four relevant service values were numeric.
+
+As a result, the number of observations can differ between national, urban and rural analyses.
+
+---
+
+# 11. Analytical Limitations
+
+- The dataset contains country and area-level estimates.
+- The analysis focuses on 2020.
+- Some observations contain missing service values.
+- Rounded variables reduce detail and are used only for grouping.
+- Grouped country averages are not automatically population weighted.
+- Unequal numbers of countries may be represented in different rounded categories.
+- The analysis identifies descriptive associations rather than causal effects.
+- The Google Sheets workbook remains the authoritative record of formulas, transformations and chart configurations.
+
+---
+
+## Official References
+
+- [WHO/UNICEF JMP Data Portal](https://washdata.org/data)
+- [JMP Drinking-Water Service Ladder](https://washdata.org/topics/drinking-water)
+- [JMP Estimation Methods](https://washdata.org/topics/methods/estimation-methods)
