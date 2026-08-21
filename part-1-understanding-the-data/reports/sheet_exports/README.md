@@ -1,91 +1,159 @@
 # Sheet Exports
 
-This folder contains PDF exports of the main Google Sheets analysis tabs used in Part 1 of the project.
+This folder contains PDF exports of the four main Google Sheets analysis tabs used in Part 1 of my **Access to Drinking Water** project.
 
-These files preserve the final spreadsheet outputs, including tables, calculations, pivot tables, and visualizations. They are included as supporting documentation for the analytical workflow and allow the workbook results to be reviewed directly from the GitHub repository.
+I included these exports to make the visible spreadsheet outputs directly accessible from the repository. They document the final tables, summary statistics, findings, pivot results, and visualizations produced during the analysis.
 
-The full analytical interpretation is available in the main analytical report:
+The PDFs support the analytical report but do not replace the original Google Sheets workbook, which remains the source of truth for formulas, data transformations, filters, and chart configurations.
 
-[Part1_Analytical_Report.md](../analytical_report/Part1_Analytical_Report.md)
+## Project navigation
 
----
-
-## Files Included
-
-### Global_2020_Report.pdf
-
-Export of the **Global 2020 Report** sheet.
-
-This file contains the global-level analysis of drinking water access, including population-based exploration, urban-rural population share comparison, statistical summaries, and national service-level visualizations.
-
-**Main contents:**
-
-- national population analysis
-- urban and rural population share comparison
-- summary statistics for water access variables
-- national access distribution by service level
-- comparison of national, rural, and urban access patterns
+- [Part 1 Analytical Report](../analytical_report/Part1_Analytical_Report.md)
+- [Data documentation](../../data/README.md)
+- [Data dictionary](../../data/Data_dictionary.md)
+- [Open the Google Sheets workbook](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit)
 
 ---
 
-### Urban_2020_Report.pdf
+## Files included
 
-Export of the **Urban 2020 Report** sheet.
-
-This file focuses on urban drinking water access and shows how urban populations are distributed across four service levels: at least basic, limited, unimproved, and surface water.
-
-**Main contents:**
-
-- urban population share analysis
-- urban service-level distribution
-- urban access gaps
-- comparison between basic and lower service-level categories in urban areas
+| Sheet export | Source sheet | Main analytical purpose |
+|---|---|---|
+| [Global 2020 Report.pdf](<./Global 2020 Report.pdf>) | Global 2020 Report | National overview, population analysis, distribution statistics, and national–urban–rural comparison |
+| [Urban 2020 Report.pdf](<./Urban 2020 Report.pdf>) | Urban 2020 Report | Analysis of urban drinking-water service levels |
+| [Rural 2020 Report.pdf](<./Rural 2020 Report.pdf>) | Rural 2020 Report | Analysis of rural drinking-water access and inequality |
+| [Pivot_Table.pdf](./Pivot_Table.pdf) | Pivot Table | Income-group aggregation and socioeconomic comparison |
 
 ---
 
-### Rural_2020_Report.pdf
+## Global 2020 Report
 
-Export of the **Rural 2020 Report** sheet.
+[View the Global 2020 Report export](<./Global 2020 Report.pdf>)
 
-This file focuses on rural drinking water access and highlights the greater variability and inequality found in rural service-level distributions.
+I used the **Global 2020 Report** sheet as the main analytical reporting layer for the 2020 country-level data.
 
-**Main contents:**
+The export contains:
 
-- rural population share analysis
-- rural service-level distribution
-- rural exposure to limited, unimproved, and surface-water access
-- evidence of urban-rural inequality in drinking water access
+- The prepared national dataset
+- Source and derived population variables
+- Cleaned national, urban, and rural service-level variables
+- National population-size analysis
+- Urban and rural population-share comparison
+- Summary statistics for drinking-water access
+- A box-and-whisker-style comparison of service distributions
+- National service-level distribution analysis
+- Written interpretations of the principal findings
 
----
+The sheet compares four drinking-water service levels:
 
-### Pivot_Table.pdf
+- At least basic
+- Limited
+- Unimproved
+- Surface water
 
-Export of the **Pivot Table** sheet.
-
-This file summarizes national drinking water access by income group and shows the relationship between socioeconomic classification and service-level quality.
-
-**Main contents:**
-
-- income group segmentation
-- average national basic access by income group
-- average limited, unimproved, and surface-water access by income group
-- relationship between income level and water access quality
-
----
-
-## Why These Exports Are Included
-
-The spreadsheet exports are included to provide transparency into the actual workbook outputs behind the analysis.
-
-They show the final state of the spreadsheet sheets after data cleaning, feature engineering, aggregation, visualization, and pivot table analysis.
-
-These exports are not intended to replace the analytical report. Instead, they support it by documenting the original spreadsheet-based work.
+It also provides the main evidence for the urban–rural comparison developed in the analytical report.
 
 ---
 
-## Notes
+## Urban 2020 Report
 
-- The full Google Sheets workbook remains the main analytical workspace for the project.
-- These PDFs were exported directly from the workbook after completing the analysis.
-- The exported sheets are included for documentation, review, and portfolio transparency.
-- The consolidated `Part1_Full_Report.pdf` is not included here because the individual sheet exports already provide a cleaner and more focused review of each analysis component.
+[View the Urban 2020 Report export](<./Urban 2020 Report.pdf>)
+
+I used the **Urban 2020 Report** sheet to isolate urban drinking-water estimates and analyze how service-level access varied across urban population-share groups.
+
+The export contains:
+
+- Urban population-share categories
+- Cleaned urban service-level variables
+- Aggregated urban service-level averages
+- A 100% stacked service-distribution chart
+- A supporting interpretation table
+- A conclusion summarizing the urban findings
+
+The sheet shows that urban areas generally recorded high at-least-basic access, while limited, unimproved, and surface-water services represented comparatively small shares of the average urban distribution.
+
+---
+
+## Rural 2020 Report
+
+[View the Rural 2020 Report export](<./Rural 2020 Report.pdf>)
+
+I used the **Rural 2020 Report** sheet to examine drinking-water access among rural populations.
+
+The export contains:
+
+- Rural population-share categories
+- Cleaned rural service-level variables
+- Complete-case rural observations
+- Aggregated rural service-level averages
+- A 100% stacked service-distribution chart
+- A supporting interpretation table
+- A conclusion summarizing the rural findings
+
+This sheet highlights the lower average level and greater variability of rural at-least-basic access. It also shows the greater rural contribution of limited, unimproved, and surface-water services.
+
+---
+
+## Pivot Table
+
+[View the Pivot Table export](./Pivot_Table.pdf)
+
+I used the **Pivot Table** sheet to summarize population, urbanization, and national drinking-water access by income group.
+
+The export contains:
+
+- Income-group categories
+- Income-group sorting through `income_group_num`
+- Sum of national population
+- Average urban population share
+- Average national at-least-basic access
+- Average national limited access
+- Average national unimproved access
+- Average national surface-water access
+- A chart comparing average service levels across income groups
+- Written interpretations of the pivot-table findings
+
+The pivot table identifies a clear descriptive association between income classification and drinking-water access. Higher-income groups recorded higher average at-least-basic access and lower average reliance on limited, unimproved, and surface-water services.
+
+The averages are country-level group averages and should not be interpreted as population-weighted global coverage estimates.
+
+---
+
+## How the exports support the project
+
+I included the sheet exports for three main reasons:
+
+### 1. Transparency
+
+The exports allow reviewers to inspect the visible Google Sheets outputs behind the analytical report.
+
+### 2. Traceability
+
+Each PDF corresponds to one of the four principal analytical sheets, making it easier to connect the methodology, calculations, visualizations, and findings.
+
+### 3. Portfolio accessibility
+
+The PDFs allow the project outputs to be reviewed directly from GitHub without requiring immediate access to the complete Google Sheets interface.
+
+---
+
+## Important interpretation notes
+
+- The PDFs are static snapshots of the completed Google Sheets tabs.
+- The original Google Sheets workbook remains the primary analytical workspace.
+- The workbook should be consulted when reviewing exact formulas, cell references, filters, pivot-table settings, or chart configurations.
+- Blank results were retained where the required source values were incomplete.
+- Aggregated service-level averages are generally unweighted country-level averages unless otherwise specified.
+- Rounded population measures were used for grouping and visualization, not as replacements for the original population values.
+- The income-group comparison is descriptive and does not establish causality.
+- The `NAN` income category represents observations without a verified income classification and is not treated as an ordered income level.
+
+---
+
+## Related documentation
+
+For the complete explanation of the methodology and findings, see:
+
+- [Part 1 Analytical Report](../analytical_report/Part1_Analytical_Report.md)
+- [Data README](../../data/README.md)
+- [Data Dictionary](../../data/Data_dictionary.md)
