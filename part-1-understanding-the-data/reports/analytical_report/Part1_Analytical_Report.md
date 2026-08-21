@@ -670,4 +670,3 @@ The pivot-table analysis also revealed a clear descriptive income gradient. High
 I therefore conclude that progress toward universal drinking-water access should be evaluated not only through national averages, but also through the distribution of access between urban and rural populations, across service levels, and among countries with different economic capacities.
 
 The results support a targeted analytical and policy focus on rural populations and lower-income countries, where both the scale and severity of drinking-water deprivation were greatest.
-<img width="1309" height="13192" alt="image" src="https://github.com/user-attachments/assets/7487fb9a-935d-4264-93ad-8abfb1e3358a" />
