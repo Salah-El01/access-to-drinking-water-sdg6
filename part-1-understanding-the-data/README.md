@@ -2,300 +2,601 @@
 
 ## Project Overview
 
-This project analyzes global access to drinking water using country-level estimates for 2020.
+In Part 1 of this project, I analyzed country-level drinking-water access estimates for 2020 using Google Sheets.
 
-The analysis focuses on understanding how drinking water access varies across national, urban, and rural populations, and how service-level quality changes across income groups.
+My objective was to understand how drinking-water access differed:
 
-The project was completed using Google Sheets as the main analytical workspace, with a focus on data cleaning, feature engineering, summary statistics, pivot table analysis, and visual storytelling.
+- Between national, urban, and rural populations
+- Across the four drinking-water service levels
+- According to national population and urban–rural structure
+- Across World Bank income groups
+
+I used Google Sheets as the main analytical workspace for data validation, cleaning, feature engineering, aggregation, summary statistics, pivot-table analysis, visualization, and reporting.
+
+This analysis forms the descriptive foundation for Part 2, where the project is extended to examine changes in drinking-water access from 2000 to 2020.
+
+---
+
+## Key Project Links
+
+- [Open the Google Sheets workbook](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit)
+- [Read the complete Part 1 Analytical Report](./reports/analytical_report/Part1_Analytical_Report.md)
+- [Review the Google Sheets PDF exports](./reports/sheet_exports/)
+- [Read the Sheet Exports documentation](./reports/sheet_exports/README.md)
+- [Read the data documentation](./data/README.md)
+- [Consult the Data Dictionary](./data/Data_dictionary.md)
+- [Review the visual assets](./assets/)
 
 ---
 
 ## Analytical Objective
 
-The objective of this part of the project is to understand the structure of the drinking water access dataset and identify the main patterns behind global water access inequality.
+The purpose of this part of the project was to understand the structure of the 2020 drinking-water dataset and identify the principal patterns associated with unequal access.
 
-The analysis focuses on four core questions:
+I focused on four analytical questions:
 
 1. How does national population size relate to urban and rural population shares?
-2. How is drinking water access distributed across national, urban, and rural populations?
-3. Do rural and urban populations experience different levels of access inequality?
-4. How does income group relate to national drinking water access quality?
+2. How are drinking-water service levels distributed nationally and between urban and rural populations?
+3. Do rural and urban populations experience different levels of access and cross-country inequality?
+4. How does income classification relate to national drinking-water service levels?
 
 ---
 
-## Working Spreadsheet
+## Data Source and Scope
 
-The full Google Sheets workbook used for the analysis is available here:
+I used country-level estimates from the WHO/UNICEF Joint Monitoring Programme for Water Supply, Sanitation and Hygiene.
 
-[Open Google Sheets Workbook](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit?usp=sharing)
+The analysis focuses on the year **2020** and covers four drinking-water service levels:
 
-The workbook contains:
-
-- the original dataset
-- cleaned and transformed fields
-- derived features
-- summary statistics
-- visualizations
-- pivot table analysis
-- sheet-level analytical outputs
-
----
-
-## Dataset
-
-The dataset contains country-level estimates for drinking water access in 2020.
-
-Main variables include:
-
-| Variable | Description |
+| Service level | Meaning |
 |---|---|
-| `name` | Country or area name |
-| `income_group` | Country income classification |
-| `pop_n` | National population size estimate, measured in thousands |
-| `pop_u` | Urban population share, expressed as a percentage |
-| `wat_bas_n` | National share with at least basic drinking water access |
-| `wat_lim_n` | National share with limited drinking water access |
-| `wat_unimp_n` | National share with unimproved drinking water access |
-| `wat_sur_n` | National share relying on surface water |
-| `wat_bas_r` | Rural share with at least basic drinking water access |
-| `wat_bas_u` | Urban share with at least basic drinking water access |
+| At least basic | Drinking water from an improved source with a collection time of no more than 30 minutes for a round trip, including queuing |
+| Limited | Drinking water from an improved source requiring more than 30 minutes for a round trip |
+| Unimproved | Drinking water from sources such as unprotected wells or unprotected springs |
+| Surface water | Drinking water collected directly from rivers, dams, lakes, ponds, streams, canals, or irrigation channels |
 
-The water access variables are grouped into four service levels:
+Official references:
 
-- **At least basic**
-- **Limited**
-- **Unimproved**
-- **Surface water**
-
-For full variable documentation, see:
-
-[data/Data_dictionary.md](./data/Data_dictionary.md)
+- [JMP data portal](https://washdata.org/data)
+- [JMP drinking-water service levels](https://washdata.org/topics/drinking-water)
+- [JMP estimation methods](https://washdata.org/topics/methods/estimation-methods)
 
 ---
 
-## Tools and Techniques Used
+## Dataset Variables
 
-This project demonstrates the use of spreadsheet-based data analysis techniques, including:
+I maintained a distinction between source variables, derived features, and cleaned analytical fields.
 
-- data cleaning and validation
-- handling missing and inconsistent values
-- feature engineering
-- percentage-based calculations
-- summary statistics
-- interquartile range and standard deviation analysis
-- pivot table aggregation
-- 100% stacked column charts
-- line chart analysis
-- box-and-whisker style interpretation
-- data storytelling and analytical reporting
+### Source variables
+
+| Variable group | Examples | Purpose |
+|---|---|---|
+| Country identification | `name` and country code | Identifying country-level observations |
+| Geographic classification | Region | Supporting geographic interpretation |
+| Economic classification | `income_group` | Comparing results across income categories |
+| Population | `pop_n`, `pop_u` | Measuring national population and urban population share |
+| National access | `wat_bas_n`, `wat_lim_n`, `wat_unimp_n`, `wat_sur_n` | Measuring national service-level distribution |
+| Urban access | `wat_bas_u`, `wat_lim_u`, `wat_unimp_u`, `wat_sur_u` | Measuring urban service-level distribution |
+| Rural access | `wat_bas_r`, `wat_lim_r`, `wat_unimp_r`, `wat_sur_r` | Measuring rural service-level distribution |
+
+`pop_n` is recorded in thousands, while the population-share and drinking-water variables are expressed as percentages.
+
+The complete variable definitions are available in the [Data Dictionary](./data/Data_dictionary.md).
 
 ---
 
-## Data Preparation and Feature Engineering
+## Data Validation
 
-Several derived features were created to support the analysis.
+I created `value_cnt` to verify that every imported row contained the expected number of populated source fields.
 
-| Feature | Purpose |
+The Google Sheets formula was:
+
+```gs
+=COUNTA(A2:P2)
+```
+
+A correctly structured record was expected to contain **16 populated fields**.
+
+This validation identified five malformed rows. I corrected their column structure using:
+
+> Data → Split text to columns
+
+I then repeated the validation before continuing with the calculations.
+
+This step reduced the risk of using shifted or incorrectly imported values in the analysis.
+
+---
+
+## Feature Engineering
+
+I created several derived features to support validation, grouping, aggregation, and visualization.
+
+| Derived feature | Verified Google Sheets logic | Purpose |
+|---|---|---|
+| `value_cnt` | `=COUNTA(A2:P2)` | Validates the number of populated fields in each imported row |
+| `pop_u_val` | `=pop_n_cell*pop_u_cell/100` | Estimates the urban population value |
+| `pop_r` | `=100-pop_u_cell` | Calculates the rural population share |
+| `pop_n (m)` | `=ROUNDUP(pop_n_cell/1000,0)` | Converts national population from thousands into rounded millions |
+| `pop_u (rounded)` | `=IFERROR(ROUND(pop_u_cell,0),"NAN")` | Creates whole-number urban-share groups |
+| `pop_r (rounded)` | `=IFERROR(ROUND(pop_r_cell,0),"NAN")` | Creates whole-number rural-share groups |
+| `income_group_num` | Ordered mapping from 0 to 4 | Maintains the intended income-group sorting order |
+
+The income-group sorting order was:
+
+| Value | Category |
+|---:|---|
+| 0 | NAN |
+| 1 | Low income |
+| 2 | Lower middle income |
+| 3 | Upper middle income |
+| 4 | High income |
+
+I treated `NAN` as an unclassified category and did not interpret it as part of the ordered income progression.
+
+Because the relevant source fields occupy different positions across the working sheets, I documented the verified formula logic without inventing unverified cell references.
+
+---
+
+## Cleaning the Service-Level Variables
+
+I created cleaned national, urban, and rural service-level fields.
+
+Examples include:
+
+- `wat_bas_n_clean`
+- `wat_lim_n_clean`
+- `wat_unimp_n_clean`
+- `wat_sur_n_clean`
+- `wat_bas_u_clean`
+- `wat_lim_u_clean`
+- `wat_unimp_u_clean`
+- `wat_sur_u_clean`
+- `wat_bas_r_clean`
+- `wat_lim_r_clean`
+- `wat_unimp_r_clean`
+- `wat_sur_r_clean`
+
+A representative Google Sheets formula was:
+
+```gs
+=IF(COUNT($D2:$G2)=4,MIN(100,MAX(0,$D2)),)
+```
+
+I copied the formula across the four service-level columns and then down the report dataset.
+
+In each report sheet, `$D2:$G2` represents the corresponding four service-level values for the observation.
+
+The formula:
+
+1. Confirms that all four service values are numeric.
+2. Prevents percentages from falling below 0%.
+3. Prevents percentages from exceeding 100%.
+4. Returns a blank result when the four related service values are incomplete.
+
+I applied this complete-case rule because the four service levels represent components of the same drinking-water distribution. Calculating a grouped distribution from only part of the service ladder could produce a misleading result.
+
+---
+
+## Summary Statistics
+
+I used the following Google Sheets functions to examine central tendency and cross-country dispersion:
+
+```gs
+=MIN(range)
+=QUARTILE(range,1)
+=MEDIAN(range)
+=AVERAGE(range)
+=QUARTILE(range,3)
+=MAX(range)
+```
+
+The mean and median helped me evaluate typical access levels, while the quartiles and interquartile range helped identify inequality and dispersion across countries.
+
+---
+
+## Google Sheets Reporting Structure
+
+I organized the analysis into four reporting sheets:
+
+| Sheet | Analytical role |
 |---|---|
-| `value_cnt` | Counts non-empty values in each row to validate row completeness |
-| `pop_u_val` | Estimates the urban population count using national population and urban share |
-| `pop_r` | Calculates rural population share as the complement of urban share |
-| `pop_n (m)` | Converts national population into a rounded million-based feature for visualization |
-| `pop_u (rounded)` | Rounds urban population share for grouped visual analysis |
-| `pop_r (rounded)` | Rounds rural population share for grouped visual analysis |
-| cleaned water-access fields | Improve chart reliability by reducing issues caused by missing or inconsistent values |
+| Global 2020 Report | Main 2020 dataset, feature preparation, summary statistics, and national–urban–rural comparison |
+| Urban 2020 Report | Analysis of drinking-water service levels across urban population-share groups |
+| Rural 2020 Report | Analysis of rural access, lower service levels, and rural inequality |
+| Pivot Table | Income-group aggregation of population, urbanization, and national service levels |
 
-These transformations helped make the dataset easier to validate, summarize, visualize, and interpret.
+The individual sheet exports are available in the [reports/sheet_exports](./reports/sheet_exports/) folder.
 
 ---
 
 ## Repository Structure
 
-- `assets/`  
-  Contains the main exported visuals used in the analysis.
-
-- `data/`  
-  Contains dataset documentation and the data dictionary.
-
-- `reports/`  
-  Contains the analytical report and spreadsheet sheet exports.
-
-Inside the `reports/` folder:
-
-- `analytical_report/` contains the full written analytical report.
-- `sheet_exports/` contains PDF exports of the main Google Sheets analysis tabs.
-
----
-
-## Key Visuals
-
-### 1. Population vs Urban/Rural Share
-
-![Population vs Urban/Rural Share](./assets/01-population-vs-urban-rural-share.png)
-
-This visual compares national population size with urban and rural population shares.
-
-**Main insight:**  
-Population size alone does not explain urbanization structure. Countries with similar population sizes can have very different urban and rural population shares.
-
----
-
-### 2. Urban Distribution of Access to Water per Service Level
-
-![Urban Service Levels Distribution](./assets/02_urban_service_levels_distribution.png)
-
-This visual shows how urban populations are distributed across the four drinking water service levels.
-
-**Main insight:**  
-Urban populations generally show strong access to at least basic drinking water services. Limited, unimproved, and surface-water access remain small and concentrated in selected countries.
+```text
+part-1-understanding-the-data/
+├── assets/
+│   ├── 01_population_vs_urban_rural_share.png
+│   ├── 02_access_by_area_and_service_level.png
+│   ├── 03_national_service_levels_distribution.png
+│   ├── 04_urban_service_levels_distribution.png
+│   ├── 05_rural_service_levels_distribution.png
+│   └── 06_income_group_vs_service_levels.png
+│
+├── data/
+│   ├── README.md
+│   └── Data_dictionary.md
+│
+├── reports/
+│   ├── analytical_report/
+│   │   └── Part1_Analytical_Report.md
+│   │
+│   ├── sheet_exports/
+│   │   ├── Global 2020 Report.pdf
+│   │   ├── Urban 2020 Report.pdf
+│   │   ├── Rural 2020 Report.pdf
+│   │   ├── Pivot_Table.pdf
+│   │   └── README.md
+│   │
+│   └── README.md
+│
+└── README.md
+```
 
 ---
 
-### 3. Rural Distribution of Access to Water per Service Level
+# Key Visualizations and Findings
 
-![Rural Service Levels Distribution](./assets/03_rural_service_levels_distribution.png)
+## 1. National Population Versus Urban and Rural Share
 
-This visual shows how rural populations are distributed across the four drinking water service levels.
+![National population versus urban and rural population share](./assets/01_population_vs_urban_rural_share.png)
 
-**Main insight:**  
-Rural populations show greater inequality than urban populations. Limited, unimproved, and surface-water categories are more visible in rural areas.
+### Methodology
 
----
+I grouped countries by rounded national population size in millions and plotted:
 
-### 4. Income Group vs Service Levels
+- Average urban population share
+- Average rural population share
 
-![Income Group vs Service Levels](./assets/04_income_group_vs_service_levels.png)
+Urban and rural shares are complementary and therefore combine to approximately 100%.
 
-This visual compares average national drinking water access across income groups.
+The horizontal axis represents population-size categories rather than time. I therefore interpreted the chart as a comparison between population groups and not as a chronological trend.
 
-**Main insight:**  
-Income group is strongly associated with drinking water access quality. As income level increases, at least basic access rises sharply, while limited, unimproved, and surface-water access decline toward zero.
+### Finding
 
----
+The chart does not show a consistent relationship between national population size and urban–rural structure.
 
-## Main Findings
-
-### 1. National basic water access is generally high
-
-At the national level, access to at least basic drinking water is the dominant service category in most observations.
-
-Limited, unimproved, and surface-water access are generally smaller, but still important in selected countries.
+Countries with similar population sizes can have substantially different urban and rural population shares. Population size alone is therefore insufficient to explain a country's settlement structure or drinking-water infrastructure requirements.
 
 ---
 
-### 2. Urban areas show the strongest access profile
+## 2. Access by Area and Service Level
 
-Urban populations have the highest and most stable access to at least basic drinking water.
+![Access to drinking water by area and service level](./assets/02_access_by_area_and_service_level.png)
 
-Surface-water reliance is nearly absent in most urban observations, and lower service levels are concentrated in specific countries.
+### Methodology
 
----
+I used a candlestick chart to produce a box-and-whisker-style comparison.
 
-### 3. Rural areas show greater inequality
+For every area and service level, I configured:
 
-Rural populations are more exposed to limited, unimproved, and surface-water services.
+- Low as the minimum
+- Open as the first quartile
+- Close as the third quartile
+- High as the maximum
 
-Rural basic access remains common, but it is less stable and more variable than urban basic access.
+The box represents the interquartile range.
 
----
+The chart does not display the mean or median directly, so I calculated those statistics separately in the supporting interpretation table.
 
-### 4. Population size alone does not explain water access quality
+### Key statistics
 
-The population-based visuals do not show a clear direct relationship between population size and drinking water access quality.
+| Area and service level | Mean | Median | Interquartile range |
+|---|---:|---:|---:|
+| National — at least basic | 89.86% | 97.35% | 14.24 |
+| Rural — at least basic | 81.34% | 90.73% | 34.29 |
+| Urban — at least basic | 94.69% | 98.11% | 7.39 |
+| Rural — surface water | 4.22% | 0.22% | 6.16 |
+| Urban — surface water | 0.31% | 0.00% | 0.16 |
 
-This suggests that population size is not sufficient as a standalone explanatory factor.
+### Finding
 
----
+Urban at-least-basic access had the highest average and the narrowest interquartile range.
 
-### 5. Income group is strongly associated with access quality
+Rural at-least-basic access had a lower average and a substantially wider interquartile range. This demonstrates that rural access was not only lower but also more unequal across countries.
 
-Income group provides one of the clearest patterns in the analysis.
-
-Low-income countries show the lowest average basic access and the highest exposure to limited, unimproved, and surface-water categories. High-income countries approach universal access to at least basic drinking water.
-
----
-
-## Reports
-
-The full analytical report is available here:
-
-[Part1_Analytical_Report.md](./reports/analytical_report/Part1_Analytical_Report.md)
-
-Supporting spreadsheet exports are available here:
-
-[sheet_exports/](./reports/sheet_exports/)
-
-The analytical report provides the full project interpretation, while the sheet exports preserve the final Google Sheets outputs for transparency and documentation.
+Urban surface-water reliance was almost nonexistent in most observations. Rural surface-water reliance was also low in the typical country, but a smaller group of countries recorded substantially higher dependence.
 
 ---
 
-## Data Documentation
+## 3. National Service-Level Distribution
 
-Dataset documentation is available here:
+![National distribution of drinking-water access by service level](./assets/03_national_service_levels_distribution.png)
 
-[data/README.md](./data/README.md)
+### Methodology
 
-Full variable documentation is available here:
+I created a 100% stacked column chart using:
 
-[data_dictionary.md](./data/data_dictionary.md)
+- Rounded national population size in millions as the grouping dimension
+- Average cleaned national service-level percentages as the chart series
 
----
+Each column represents the average national service distribution of the countries contained in that population-size group.
 
-## Visual Assets
+### Finding
 
-The visual assets folder is available here:
+At-least-basic access was the dominant national service category in most population groups.
 
-[assets/](./assets/)
+However, the proportions of limited, unimproved, and surface-water access varied between groups. The chart did not reveal a consistent progression in which drinking-water access automatically improved or declined with national population size.
 
-It contains the main exported visuals used to support the analysis and reporting.
-
----
-
-## Limitations
-
-This analysis is descriptive and exploratory. It identifies patterns and relationships, but it does not prove causality.
-
-Main limitations include:
-
-- the analysis focuses on 2020 estimates only
-- missing values may affect some country-level comparisons
-- some variables required cleaning before analysis
-- population size does not capture infrastructure quality, geography, governance, or investment capacity
-- income group is a useful segmentation variable, but it does not explain all country-level differences
+This supports the conclusion that population size alone does not explain national service quality.
 
 ---
 
-## Future Improvements
+## 4. Urban Service-Level Distribution
 
-This project could be strengthened further by:
+![Urban distribution of drinking-water access by service level](./assets/04_urban_service_levels_distribution.png)
 
-- adding regional segmentation
-- analyzing multiple years to identify trends over time
-- calculating population-weighted access indicators
-- building an interactive dashboard
-- reproducing the analysis in Python or R
-- applying clustering or regression models to identify stronger predictors of water access inequality
-- ranking countries by lowest basic access and highest surface-water reliance
+### Methodology
 
----
+I grouped countries by rounded urban population share and calculated the average cleaned urban service-level percentages for each represented group.
 
-## Skills Demonstrated
+I then created a 100% stacked column chart to display the complete average service distribution.
 
-This project demonstrates the following data analysis skills:
+### Average urban service distribution
 
-- data cleaning
-- feature engineering
-- spreadsheet modeling
-- summary statistics
-- pivot table analysis
-- visual analytics
-- comparative analysis
-- data storytelling
-- documentation
-- portfolio reporting
+| Urban service level | Average share |
+|---|---:|
+| At least basic | 94.69% |
+| Limited | 3.28% |
+| Unimproved | 1.72% |
+| Surface water | 0.31% |
+
+### Finding
+
+Urban populations had the strongest overall access profile.
+
+At-least-basic access represented approximately **94.69%** of the average urban distribution. Limited, unimproved, and surface-water services accounted for relatively small average shares.
+
+Although the overall urban results were strong, the chart also identified selected country groups where limited or unimproved services remained relevant.
 
 ---
 
-## Final Conclusion
+## 5. Rural Service-Level Distribution
 
-I found that income group produced one of the clearest descriptive patterns in the analysis. Basic access increased consistently across higher income classifications, while limited, unimproved and surface-water access declined. However, the grouped averages did not isolate the effect of income from urbanization or other structural factors.
+![Rural distribution of drinking-water access by service level](./assets/05_rural_service_levels_distribution.png)
+
+### Methodology
+
+I grouped countries by rounded rural population share and calculated the average cleaned rural service-level percentages for each represented group.
+
+The complete-case rural analysis included:
+
+- **159 country records**
+- **54 excluded records with incomplete rural service distributions**
+- **74 represented rounded rural-share groups**
+
+### Average rural service distribution
+
+| Rural service level | Average share |
+|---|---:|
+| At least basic | 81.34% |
+| Limited | 5.84% |
+| Unimproved | 8.73% |
+| Surface water | 4.22% |
+
+### Finding
+
+Rural populations had lower at-least-basic access and greater exposure to every lower service category.
+
+Compared with urban areas:
+
+| Service level | Urban average | Rural average | Rural minus urban |
+|---|---:|---:|---:|
+| At least basic | 94.69% | 81.34% | -13.35 percentage points |
+| Limited | 3.28% | 5.84% | +2.56 percentage points |
+| Unimproved | 1.72% | 8.73% | +7.01 percentage points |
+| Surface water | 0.31% | 4.22% | +3.91 percentage points |
+
+The largest difference was in unimproved access, where the rural average exceeded the urban average by approximately **7.01 percentage points**.
+
+---
+
+## 6. Income Group and Drinking-Water Service Levels
+
+![Average national drinking-water access by income group](./assets/06_income_group_vs_service_levels.png)
+
+### Methodology
+
+I created a pivot table using:
+
+- `income_group` as the row dimension
+- Sum of national population
+- Average urban population share
+- Average national at-least-basic access
+- Average national limited access
+- Average national unimproved access
+- Average national surface-water access
+
+The service values are unweighted country averages. Each included country therefore contributes equally to its income-group average, regardless of population size.
+
+### Pivot-table findings
+
+| Income category | Population represented (millions) | Average urban share | At least basic | Limited | Unimproved | Surface water |
+|---|---:|---:|---:|---:|---:|---:|
+| NAN | 37.26 | 61.46% | 97.18% | 0.15% | 2.39% | 0.32% |
+| Low income | 590.43 | 36.04% | 62.82% | 16.55% | 15.21% | 5.42% |
+| Lower middle income | 3,399.31 | 48.79% | 82.21% | 5.69% | 7.90% | 4.29% |
+| Upper middle income | 2,547.62 | 64.69% | 96.43% | 1.56% | 1.48% | 0.57% |
+| High income | 1,212.08 | 79.36% | 99.56% | 0.18% | 0.24% | 0.02% |
+
+I converted the pivot-table population totals from thousands to millions for readability.
+
+### Finding
+
+The classified income groups displayed a clear descriptive gradient.
+
+Average at-least-basic access increased from **62.82%** in low-income countries to **99.56%** in high-income countries, a difference of approximately **36.74 percentage points**.
+
+Average urban population share also increased from **36.04%** in low-income countries to **79.36%** in high-income countries.
+
+At the same time:
+
+- Limited access declined from 16.55% to 0.18%.
+- Unimproved access declined from 15.21% to 0.24%.
+- Surface-water access declined from 5.42% to 0.02%.
+
+I retained the `NAN` category for transparency but excluded it from the ordered comparison between income levels.
+
+This analysis identifies a strong descriptive association. It does not establish that income classification independently caused the observed access differences.
+
+---
+
+# Main Findings
+
+## 1. At-least-basic access was the dominant service category
+
+At-least-basic drinking-water access represented the largest share of the service distribution in most national, urban, and rural observations.
+
+However, high national access levels concealed substantial cross-country and urban–rural inequalities.
+
+## 2. Urban areas had the strongest access profile
+
+Urban at-least-basic access averaged approximately **94.69%**, with relatively limited cross-country dispersion.
+
+Urban reliance on surface water was almost nonexistent in most observations.
+
+## 3. Rural populations experienced greater inequality
+
+Rural at-least-basic access averaged approximately **81.34%**, which was **13.35 percentage points** below the urban average.
+
+The rural distribution was also substantially wider, demonstrating greater inequality between countries.
+
+## 4. Lower service levels were concentrated in rural areas
+
+Rural populations recorded higher average limited, unimproved, and surface-water access.
+
+The urban–rural difference was especially large for unimproved services.
+
+## 5. Population size alone did not explain service quality
+
+The population-based visualizations did not reveal a consistent relationship between national population size and drinking-water access quality.
+
+Countries with similar population sizes could have very different service-level distributions.
+
+## 6. Income classification showed a clear descriptive association
+
+Higher income groups had higher average at-least-basic access and lower average dependence on limited, unimproved, and surface-water services.
+
+This relationship was one of the clearest descriptive patterns in the dataset, but it should not be interpreted as proof of causality.
+
+---
+
+# Reports and Supporting Documentation
+
+## Analytical report
+
+The complete methodology, findings, interpretations, limitations, and conclusion are available in:
+
+- [Part 1 Analytical Report](./reports/analytical_report/Part1_Analytical_Report.md)
+
+## Sheet exports
+
+The PDF exports of the four Google Sheets reporting tabs are available in:
+
+- [Sheet Exports folder](./reports/sheet_exports/)
+- [Sheet Exports README](./reports/sheet_exports/README.md)
+- [Global 2020 Report.pdf](<./reports/sheet_exports/Global 2020 Report.pdf>)
+- [Urban 2020 Report.pdf](<./reports/sheet_exports/Urban 2020 Report.pdf>)
+- [Rural 2020 Report.pdf](<./reports/sheet_exports/Rural 2020 Report.pdf>)
+- [Pivot_Table.pdf](./reports/sheet_exports/Pivot_Table.pdf)
+
+## Data documentation
+
+- [Data README](./data/README.md)
+- [Data Dictionary](./data/Data_dictionary.md)
+
+## Visual assets
+
+- [Assets folder](./assets/)
+
+---
+
+# Tools and Skills Demonstrated
+
+This part of the project demonstrates my ability to use Google Sheets for:
+
+- Data import validation
+- Detection and correction of malformed records
+- Missing-value handling
+- Complete-case data cleaning
+- Percentage validation
+- Feature engineering
+- Population-based calculations
+- Grouped aggregation
+- Summary statistics
+- Quartile and interquartile-range analysis
+- Pivot-table analysis
+- Income-group sorting
+- 100% stacked column charts
+- Line-chart analysis
+- Candlestick-based distribution visualization
+- Comparative urban–rural analysis
+- Data interpretation
+- Analytical documentation
+- Portfolio reporting
+
+---
+
+# Limitations
+
+I considered the following limitations when interpreting the results:
+
+1. **The analysis covers one year.**  
+   The results describe drinking-water access in 2020 and do not measure change over time.
+
+2. **Most averages are unweighted.**  
+   Each included country contributes equally to the country-level averages, regardless of population size.
+
+3. **Missing values affect analytical coverage.**  
+   Records without all four required service values were excluded from the corresponding complete-case analysis.
+
+4. **Rounded features reduce precision.**  
+   Rounded population and urban–rural shares improve grouping and chart readability but simplify the original continuous values.
+
+5. **Grouped charts conceal country-level variation.**  
+   Countries in the same rounded category may have different individual access profiles.
+
+6. **The analysis is descriptive.**  
+   The relationships identified between population, urbanization, income group, and drinking-water access do not demonstrate causality.
+
+7. **Other structural factors were not modeled.**  
+   Geography, governance, conflict, infrastructure investment, climate conditions, and institutional capacity may contribute to the observed differences.
+
+---
+
+# Future Improvements
+
+I would extend this analysis by:
+
+- Comparing drinking-water access from 2000 to 2020
+- Calculating population-weighted access indicators
+- Measuring the urban–rural access gap for every country
+- Adding regional comparisons
+- Identifying countries with the largest populations lacking at-least-basic access
+- Ranking countries by surface-water reliance
+- Comparing changes across income groups
+- Building an interactive dashboard
+- Using Python or R for automated validation and reproducible analysis
+- Applying appropriate statistical models to evaluate multiple explanatory variables
+
+---
+
+# Final Conclusion
+
+My analysis shows that drinking-water access in 2020 was characterized by substantial inequality despite generally high levels of at-least-basic service.
+
+Urban populations had the highest and most consistent access. Rural populations recorded lower at-least-basic access, greater cross-country variation, and higher average dependence on limited, unimproved, and surface-water services.
+
+The income-group analysis also revealed a clear descriptive gradient. Higher-income groups had higher average at-least-basic access, while low-income countries retained substantially larger shares of lower service levels.
+
+I therefore conclude that national averages alone are insufficient for evaluating progress toward universal drinking-water access. A complete assessment must also consider urban–rural disparities, service-level composition, missing-data coverage, and differences between countries with unequal economic capacity.
+
+These findings establish the analytical foundation for Part 2, where I examine how drinking-water access changed between 2000 and 2020.
