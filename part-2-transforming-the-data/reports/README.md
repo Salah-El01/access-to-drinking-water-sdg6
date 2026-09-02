@@ -1,8 +1,13 @@
-# Reports — Part 2: Transforming the Data
+# Reports - Part 2: Transforming the Data
 
-This folder contains the reporting layer of **Part 2 — Transforming the Data** of the **Access to Drinking Water (SDG 6)** project.
+This folder contains the reporting and documentary evidence for **Part 2: Transforming the Data** of the **Access to Drinking Water (SDG 6)** project.
 
-Part 2 transforms a multi-year drinking-water dataset into a progress-monitoring framework using **Annual Rate of Change (ARC)**. The reports folder separates the professional analytical interpretation from the spreadsheet exports used as supporting evidence.
+Part 2 transforms paired country-level drinking-water observations into a progress-monitoring framework based on the **Annual Rate of Change (ARC)**.
+
+The reports section separates:
+
+* the written analytical interpretation;
+* the fixed PDF exports of the spreadsheet calculations and visuals.
 
 ---
 
@@ -10,248 +15,440 @@ Part 2 transforms a multi-year drinking-water dataset into a progress-monitoring
 
 ```text
 reports/
-├── analytical_report/
-│   └── Part2_Analytical_Report.md
-│
-├── sheet_exports/
-│   ├── Estimates of the use of water (2000-2020).pdf
-│   ├── Summary.pdf
-│   └── README.md
-│
-└── README.md
+|
+|-- analytical_report/
+|   `-- Part2_Analytical_Report.md
+|
+|-- sheet_exports/
+|   |-- Estimates of the use of water (2000-2020).pdf
+|   |-- Summary.pdf
+|   `-- README.md
+|
+`-- README.md
 ```
 
 ---
 
-## Analytical Report
+## Quick Access
 
-The main written report is available here:
+| Resource                                                                                                 | Purpose                                                                                  |
+| -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [Part 2 Analytical Report](./analytical_report/Part2_Analytical_Report.md)                               | Complete methodology, verified results, interpretation, limitations, and conclusions     |
+| [Sheet Exports Documentation](./sheet_exports/README.md)                                                 | Explanation of the exported worksheets and their reproducibility limitations             |
+| [Transformed Dataset PDF](./sheet_exports/Estimates%20of%20the%20use%20of%20water%20%282000-2020%29.pdf) | Fixed export of the transformation and calculation layer                                 |
+| [Summary PDF](./sheet_exports/Summary.pdf)                                                               | Fixed export of the Summary calculations, regional aggregation, and four existing charts |
+| [Part 2 Data Documentation](../data/README.md)                                                           | Dataset scope, transformation approach, and data-quality notes                           |
+| [Part 2 Data Dictionary](../data/data_dictionary.md)                                                     | Definitions, units, formula logic, and interpretation of variables                       |
+| [Part 2 Visual Assets](../assets/README.md)                                                              | Index of chart images and regional ARC table screenshots                                 |
+
+---
+
+## 1. Analytical Report
+
+The principal written report is:
 
 [Part2_Analytical_Report.md](./analytical_report/Part2_Analytical_Report.md)
 
-This report provides the full analytical interpretation of Part 2.
-
-It explains:
-
-- the objective of the transformation phase;
-- the structure of the 2000–2020 drinking-water dataset;
-- the year-representation analysis;
-- the feature engineering process;
-- the Annual Rate of Change methodology;
-- the national, rural, and urban ARC comparison;
-- the full-access classification logic;
-- the rural–urban progress difference;
-- the regional aggregation methodology;
-- the main findings;
-- the analytical limitations;
-- future improvement opportunities.
-
-The analytical report is the main document to read for a complete understanding of the Part 2 analysis.
-
----
-
-## Sheet Exports
-
-The spreadsheet exports are available here:
-
-[sheet_exports/](./sheet_exports/)
-
-These files are PDF exports of the main Google Sheets tabs used in the analysis.
-
-They preserve the final spreadsheet outputs, including:
-
-- transformed data;
-- calculated fields;
-- validation checks;
-- summary tables;
-- regional aggregations;
-- visual outputs.
-
-The sheet exports are included for transparency, documentation, and portfolio review.
-
----
-
-## Files Included in Sheet Exports
-
-### Estimates of the use of water (2000-2020).pdf
-
-[Open the transformed dataset export](<./sheet_exports/Estimates of the use of water (2000-2020).pdf>)
-
-This export contains the transformed dataset used in Part 2.
-
-It documents the row-level calculation layer, including:
-
-- country or area name;
-- regional classification;
-- observation year;
-- national population estimate;
-- national, rural, and urban water-access variables;
-- year-difference calculation;
-- national Annual Rate of Change (`ARC_n`);
-- rural Annual Rate of Change (`ARC_r`);
-- urban Annual Rate of Change (`ARC_u`);
-- rounded basic-access indicators;
-- full-access classification fields;
-- rural–urban ARC difference (`ARC_diff`).
-
-This file shows how the original dataset was transformed into an analysis-ready structure.
-
----
-
-### Summary.pdf
-
-[Open the summary export](./sheet_exports/Summary.pdf)
-
-This export contains the main analytical summary and dashboard outputs.
+This report provides the complete analytical narrative for Part 2.
 
 It documents:
 
-- year representation;
-- year-difference statistics;
-- ARC summary statistics;
-- access-by-area progress classification;
-- missing, full-access, zero, positive, and negative ARC counts;
-- rural–urban ARC comparison;
-- regional aggregation;
-- year histogram;
-- regional ARC charts;
-- population and ARC comparison visual.
+* the project objective;
+* the data source and analytical workspace;
+* the verified dataset scope;
+* the paired-observation structure;
+* the distribution of observation years;
+* the `y_diff` calculation;
+* the national, rural, and urban ARC methodology;
+* missing-value handling;
+* approximate full-access classification;
+* access-by-area progress classifications;
+* the paired rural-urban ARC difference;
+* regional aggregations;
+* the four existing visualisations;
+* verified descriptive statistics;
+* analytical limitations;
+* reproducibility constraints;
+* recommended improvements;
+* final conclusions.
 
-This file shows how the transformed data was summarized and interpreted.
+The analytical report is the primary document for understanding what was calculated, what the results mean, and what the analysis cannot establish.
 
 ---
 
-## Reporting Logic
+## 2. Sheet Exports
 
-The reporting layer separates interpretation from evidence.
+The spreadsheet exports are stored in:
+
+[sheet_exports/](./sheet_exports/)
+
+This folder contains two PDF files exported from the Google Sheets workbook.
+
+| Export                                          | Pages | Role                                                            |
+| ----------------------------------------------- | ----: | --------------------------------------------------------------- |
+| `Estimates of the use of water (2000-2020).pdf` |     4 | Country-level transformation and calculation layer              |
+| `Summary.pdf`                                   |     4 | Reporting, classification, aggregation, and visualisation layer |
+
+These PDF files are supporting evidence. They display the spreadsheet outputs but do not expose the underlying formulas, lookup ranges, chart source ranges, or dynamic recalculation logic.
+
+Detailed documentation is available in:
+
+[Sheet Exports README](./sheet_exports/README.md)
+
+---
+
+## 3. Transformed Dataset Export
+
+[Open the transformed dataset PDF](./sheet_exports/Estimates%20of%20the%20use%20of%20water%20%282000-2020%29.pdf)
+
+The worksheet is titled:
 
 ```text
-Analytical report = professional interpretation
-Sheet exports      = spreadsheet evidence
-Visual assets      = chart and table outputs
-Data folder        = dataset and variable documentation
+Estimates of the use of water (2000-2020)
 ```
 
-This structure makes the project easier to review because each folder has a clear role.
+The title refers to the broader source-data period. However, the observations retained in the completed Part 2 analysis cover **2015 to 2020**.
+
+The transformed analytical dataset contains:
+
+| Measure                          | Result |
+| -------------------------------- | -----: |
+| Countries or areas               |    231 |
+| Observations                     |    462 |
+| Observations per country or area |      2 |
+| Earliest analytical year         |   2015 |
+| Latest analytical year           |   2020 |
+
+The export documents:
+
+* country or area names;
+* observation years;
+* regional classifications;
+* population estimates;
+* national, rural, and urban drinking-water variables;
+* `y_diff`;
+* `ARC_n`;
+* `ARC_r`;
+* `ARC_u`;
+* rounded basic-access variables;
+* approximate full-access flags;
+* `ARC_diff`.
+
+The four landscape pages are consecutive printable sections of the same large worksheet.
 
 ---
 
-## How to Review This Section
+## 4. Summary Export
 
-For the best review experience:
+[Open the Summary PDF](./sheet_exports/Summary.pdf)
 
-1. Start with the analytical report:  
-   [Part2_Analytical_Report.md](./analytical_report/Part2_Analytical_Report.md)
+The Summary worksheet is the reporting and interpretation layer of the spreadsheet analysis.
 
-2. Review the spreadsheet exports:  
-   [sheet_exports/](./sheet_exports/)
+It contains:
 
-3. Review the visual assets:  
-   [../assets/](../assets/)
+* a linked country-level analytical table;
+* population values converted to millions;
+* observation-year frequencies;
+* year-difference statistics;
+* ARC summary statistics;
+* missing-value counts;
+* approximate full-access counts;
+* zero, negative, and positive ARC classifications;
+* country-level `ARC_diff` values;
+* regional country counts;
+* regional population totals;
+* average national, rural, and urban ARC by region;
+* average paired `ARC_diff` by region;
+* four completed charts.
 
-4. Review the data documentation:  
-   [../data/](../data/)
+### Existing charts
+
+The current Summary export contains:
+
+1. **Histogram of Year**
+2. **Average Rural-Urban ARC Difference by Region**
+3. **Average ARC Values for Rural Versus Urban Areas per Region**
+4. **Regional Progress in Basic Water Access: ARC and Population**
+
+The year chart is more accurately interpreted as a categorical frequency column chart because it displays separate year categories.
+
+### Current incomplete elements
+
+The Summary sheet does not yet display:
+
+* median national ARC;
+* median rural ARC;
+* median urban ARC;
+* the required country-level `ARC_diff` histogram.
+
+The medians have been independently verified and are documented in the analytical report.
+
+The existing regional average `ARC_diff` chart is an additional regional comparison. It does not replace the missing country-level histogram.
 
 ---
 
-## Relationship to the Project Workflow
+## 5. Reporting Architecture
 
-The reports folder documents the final outputs of the Part 2 workflow:
+Each project component has a distinct function.
+
+| Component              | Function                                                       |
+| ---------------------- | -------------------------------------------------------------- |
+| Analytical report      | Explains methodology, results, interpretation, and limitations |
+| Sheet exports          | Preserve fixed visual records of the spreadsheet outputs       |
+| Visual assets          | Provide reusable chart and table images                        |
+| Data documentation     | Explains dataset scope, processing, and reproducibility        |
+| Data dictionary        | Defines variables, units, formulas, and classifications        |
+| Google Sheets workbook | Provides the dynamic formula and calculation workspace         |
+
+This separation makes the project easier to review and prevents the written interpretation from being confused with the supporting spreadsheet evidence.
+
+---
+
+## 6. Relationship to the Part 2 Workflow
 
 ```text
-Source data
-    ↓
-Data transformation
-    ↓
-Feature engineering
-    ↓
-ARC calculation
-    ↓
-Regional enrichment
-    ↓
-Summary tables
-    ↓
-Visual analysis
-    ↓
+Source observations
+    |
+    v
+Country and year sorting
+    |
+    v
+Paired-observation calculations
+    |
+    v
+Year-difference calculation
+    |
+    v
+National, rural, and urban ARC
+    |
+    v
+Missing-value and full-access classification
+    |
+    v
+Paired rural-urban comparison
+    |
+    v
+Regional enrichment and aggregation
+    |
+    v
+Summary calculations and charts
+    |
+    v
 Analytical reporting
 ```
 
-The sheet exports preserve the spreadsheet outputs, while the analytical report explains the methodology and findings in a structured narrative.
+The transformed-sheet export documents the calculation layer.
+
+The Summary export documents the aggregation and visualisation layer.
+
+The analytical report explains the evidence and places the results within their methodological limits.
 
 ---
 
-## Main Analytical Themes Covered
+## 7. Core Analytical Measures
 
-The reporting layer covers five major analytical themes:
+### Observation interval
 
-### 1. Year Representation
+```text
+y_diff = later year - earlier year
+```
 
-The analysis checks how observation years are distributed and confirms that the dataset is mainly concentrated around 2015 and 2020.
+`y_diff` accounts for comparison intervals ranging from one to five years.
 
-### 2. Annual Rate of Change
+### Annual Rate of Change
 
-The project calculates `ARC_n`, `ARC_r`, and `ARC_u` to measure annual progress in national, rural, and urban access to at least basic drinking water.
+```text
+ARC =
+(later access percentage - earlier access percentage)
+/
+(later year - earlier year)
+```
 
-### 3. Full-Access Classification
+ARC is expressed in:
 
-The analysis separates countries already at full access from countries with zero progress below full coverage.
+```text
+percentage points per year
+```
 
-This prevents misleading interpretation of zero ARC values.
+The three area-based measures are:
 
-### 4. Rural–Urban Progress Difference
+* `ARC_n`: national ARC;
+* `ARC_r`: rural ARC;
+* `ARC_u`: urban ARC.
 
-The project uses `ARC_diff` to compare rural and urban progress directly.
+### Rural-urban ARC difference
 
 ```text
 ARC_diff = ARC_r - ARC_u
 ```
 
-A positive value means rural access improved faster than urban access.
+A positive `ARC_diff` means rural ARC is numerically higher than urban ARC.
 
-### 5. Regional Progress Analysis
-
-The analysis groups countries by region to compare progress across geographic areas and connect ARC values with population scale.
+This usually represents faster rural improvement. However, if both ARC values are negative, it can instead mean that rural access declined more slowly than urban access.
 
 ---
 
-## Main Findings Documented
+## 8. Verified Findings Documented in the Reports
 
-The reports section supports the following conclusions:
+The reports support the following conclusions:
 
-1. The dataset is not a complete annual panel; it is mainly structured around selected observation years.
-2. ARC provides a fairer comparison because it normalizes access change by the number of years between observations.
-3. Rural access improved faster than urban access on average.
-4. Urban ARC is often lower because many urban areas already had high or full access.
-5. Full-access flags improve the interpretation of zero ARC values.
-6. Regional averages hide strong country-level variation.
-7. Population size alone does not explain progress patterns.
-8. ARC should be interpreted alongside baseline access, full-access status, and population scale.
+1. The completed dataset contains paired observations rather than a complete annual panel.
+2. All 231 countries or areas have a 2015 baseline.
+3. A total of 213 countries or areas have their later observation in 2020.
+4. Approximately 96.1% of all records belong to either 2015 or 2020.
+5. The median observation interval is five years.
+6. Average and median rural ARC are higher than the corresponding national and urban measures.
+7. Positive ARC below full access is the largest classification in all three population areas.
+8. Rural full access is less common than national or urban full access.
+9. Among 165 valid paired comparisons, 112 have a positive `ARC_diff`.
+10. Every regional average paired `ARC_diff` is positive.
+11. Middle East & North Africa has the highest average rural ARC.
+12. Sub-Saharan Africa has the highest average national and urban ARC.
+13. East Asia & Pacific has the largest regional population total.
+14. Regional ARC values are unweighted country averages.
+15. Population size alone does not explain regional ARC patterns.
+
+These findings are descriptive. They do not demonstrate causality.
 
 ---
 
-## Related Folders
+## 9. Interpretation Rules
 
-### Data Documentation
+### ARC measures change, not access level
+
+A high ARC does not mean that current access is high.
+
+A region can make rapid progress while still having a substantial access deficit.
+
+### Low ARC does not automatically mean poor performance
+
+Low ARC can result from a ceiling effect when access is already close to universal.
+
+### Full access is approximate
+
+The full-access flags use access values rounded to zero decimal places. Both paired values must round to 100.
+
+The flags therefore identify approximate full access, not necessarily original values of exactly 100.000%.
+
+### Missing values are not zero
+
+| Value                 | Interpretation                                                |
+| --------------------- | ------------------------------------------------------------- |
+| Blank                 | No calculation is expected on that row                        |
+| `Null` or missing ARC | A calculation was expected, but required data was unavailable |
+| Numeric zero          | A valid calculation produced no measured change               |
+
+### Regional averages are unweighted
+
+Each valid country contributes equally to its regional ARC average, regardless of population size.
+
+The results describe the average country-level pattern, not the average experience of a regional resident.
+
+### Rural and urban samples can differ
+
+Rural ARC has 167 valid observations, while urban ARC has 181.
+
+Independent regional rural and urban averages may therefore be based on different sets of countries. Direct comparison should use the paired country-level `ARC_diff` wherever possible.
+
+---
+
+## 10. Recommended Review Order
+
+For the clearest review of Part 2:
+
+1. Read the [Part 2 Analytical Report](./analytical_report/Part2_Analytical_Report.md).
+2. Review the [Summary PDF](./sheet_exports/Summary.pdf).
+3. Review the [Transformed Dataset PDF](./sheet_exports/Estimates%20of%20the%20use%20of%20water%20%282000-2020%29.pdf).
+4. Consult the [Data Dictionary](../data/data_dictionary.md) for variable definitions and formula logic.
+5. Review the [Main Visual Documentation](../assets/main_visuals/README.md).
+6. Review the [Regional ARC Table Documentation](../assets/regional_arc_tables/README.md).
+7. Open the Google Sheets workbook when formula-level inspection is required.
+
+---
+
+## 11. Google Sheets Workbook
+
+The dynamic analytical workbook is available here:
+
+[View the Google Sheets workbook](https://docs.google.com/spreadsheets/d/1weIUAGJtGo6sjmPyZFFgbhWa5AapxfpWcgB-moQ2_-s/edit?usp=sharing)
+
+The workbook is required to inspect:
+
+* cell formulas;
+* lookup ranges;
+* dynamic calculations;
+* chart source ranges;
+* sorting and filters;
+* the relationships between the transformed and Summary sheets.
+
+The PDF exports provide fixed documentation but cannot replace the workbook for formula-level verification.
+
+---
+
+## 12. Reproducibility Limitations
+
+The repository currently contains:
+
+* Markdown documentation;
+* PNG chart and table assets;
+* PDF worksheet exports.
+
+It does not currently contain machine-readable CSV or XLSX exports of the transformed dataset.
+
+Full reproducibility would be improved by adding:
+
+* a CSV or XLSX export of the transformed data;
+* a machine-readable Summary table;
+* a regional aggregation file;
+* the country-level `ARC_diff` values;
+* a formula-reference document;
+* a reproducible Python or R workflow.
+
+Until these additions are made, the Google Sheets workbook remains necessary for direct formula and calculation inspection.
+
+---
+
+## 13. Related Part 2 Folders
+
+### Data documentation
 
 [Open the data folder](../data/)
 
-Contains the data README and data dictionary documenting the dataset structure, variables, derived features, units, and data-quality considerations.
+Contains:
 
-### Visual Assets
+* the Part 2 data README;
+* the data dictionary;
+* variable definitions;
+* transformation logic;
+* missing-value explanations;
+* reproducibility notes.
+
+### Visual assets
 
 [Open the assets folder](../assets/)
 
-Contains the main visual outputs and regional ARC tables used to support the Part 2 analysis.
+Contains:
+
+* the four main visualisations;
+* detailed chart documentation;
+* seven regional ARC table screenshots;
+* limitations concerning screenshot completeness.
 
 ---
 
-## Notes
+## 14. Final Reporting Note
 
-- The analytical report provides the professional narrative of the project.
-- The sheet exports document the final state of the Google Sheets analysis tabs.
-- The Google Sheets workbook remains the source of truth for formulas, transformations, and chart preparation.
-- The exported PDFs are included for portfolio transparency and workflow documentation.
-- The analysis is descriptive and exploratory.
-- The analysis identifies patterns and associations but does not establish causality.
-- ARC measures the speed of progress, not the final level of access.
-- Regional averages should be interpreted alongside country-level records and population scale.
+The reports folder provides the evidence and interpretation layer for Part 2.
+
+The analytical report should be used for conclusions. The sheet exports should be used to verify the visible spreadsheet outputs. The Google Sheets workbook should be used when formulas and dynamic calculations need to be inspected.
+
+All results should be interpreted with the following limitations in mind:
+
+* the analytical observations cover 2015 to 2020;
+* the dataset is not a complete annual panel;
+* rural and urban data contain substantial missingness;
+* full access is based on rounded estimates;
+* regional ARC values are unweighted;
+* aggregated values conceal country-level variation;
+* ARC measures the rate of change rather than the final access level;
+* the analysis identifies descriptive patterns but does not establish causality.
