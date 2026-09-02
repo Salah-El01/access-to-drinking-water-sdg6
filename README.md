@@ -1,680 +1,865 @@
-# Access to Drinking Water — SDG 6 Data Analysis Project
+# Access to Drinking Water - SDG 6 Data Analysis Project
 
-## Project Overview
+## From Descriptive Access Analysis to Progress Monitoring
 
-This repository presents a two-part data analysis project focused on global access to drinking water, connected to **United Nations Sustainable Development Goal 6: Clean Water and Sanitation**.
+This repository presents a two-part data analysis project examining global access to drinking water in connection with **United Nations Sustainable Development Goal 6: Clean Water and Sanitation**.
 
-The project analyzes drinking-water access using country- and area-level estimates from the **WHO/UNICEF Joint Monitoring Programme (JMP)**.
+The analysis uses country- and area-level estimates from the **WHO/UNICEF Joint Monitoring Programme for Water Supply, Sanitation and Hygiene (JMP)**.
 
-The work is divided into two complementary parts:
+The project progresses through two complementary stages:
 
-1. **Part 1 — Understanding the Data**  
-   A 2020 snapshot analysis focused on data cleaning, population representation, service-level access, urban-rural differences, population-size patterns, and income-group comparison.
+1. **Part 1: Understanding the Data**
+   A descriptive analysis of drinking-water access in 2020.
 
-2. **Part 2 — Transforming the Data**  
-   A 2000–2020 progress analysis focused on feature engineering, Annual Rate of Change calculation, full-access classification, rural-urban progress comparison, regional aggregation, and visual storytelling.
+2. **Part 2: Transforming the Data**
+   A paired-observation analysis of changes in access between 2015 and 2020 using Annual Rates of Change.
 
-Together, both parts move from descriptive analysis to progress-monitoring analysis.
-
----
-
-## Analytical Goal
-
-The main goal of this project is to understand and communicate patterns in access to drinking water across countries, areas, income groups, population sizes, and regions.
-
-The project answers questions such as:
-
-- How well does the dataset represent global population and urbanization?
-- How does access to drinking water differ between national, rural, and urban populations?
-- Are lower service levels more concentrated in rural areas?
-- Is income group associated with drinking-water access quality?
-- How has access to at least basic drinking water changed over time?
-- Are rural areas catching up with urban areas?
-- Which regions show stronger or weaker progress?
-- How should progress be interpreted alongside baseline access and population scale?
+Together, the two parts move from understanding current access inequalities to measuring how access changes over time.
 
 ---
 
-## Repository Structure
+## Project Navigation
+
+| Resource                                                                                                                              | Description                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [Part 1: Understanding the Data](./part-1-understanding-the-data/README.md)                                                           | Descriptive analysis of the 2020 access landscape               |
+| [Part 1 Google Sheets workbook](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit?usp=sharing) | Dynamic Part 1 analytical workspace                             |
+| [Part 1 Analytical Report](./part-1-understanding-the-data/reports/analytical_report/Part1_Analytical_Report.md)                      | Complete Part 1 methodology, findings, and interpretation       |
+| [Part 1 Visual Assets](./part-1-understanding-the-data/assets/)                                                                       | Charts and supporting visual outputs                            |
+| [Part 1 Sheet Exports](./part-1-understanding-the-data/reports/sheet_exports/)                                                        | PDF exports of the Part 1 spreadsheet analysis                  |
+| [Part 2: Transforming the Data](./part-2-transforming-the-data/README.md)                                                             | Progress analysis using Annual Rates of Change                  |
+| [Part 2 Google Sheets workbook](https://docs.google.com/spreadsheets/d/1weIUAGJtGo6sjmPyZFFgbhWa5AapxfpWcgB-moQ2_-s/edit?usp=sharing) | Dynamic Part 2 analytical workspace                             |
+| [Part 2 Analytical Report](./part-2-transforming-the-data/reports/analytical_report/Part2_Analytical_Report.md)                       | Complete Part 2 methodology, verified findings, and limitations |
+| [Part 2 Visual Assets](./part-2-transforming-the-data/assets/README.md)                                                               | Documentation of charts and regional ARC tables                 |
+| [Part 2 Data Dictionary](./part-2-transforming-the-data/data/data_dictionary.md)                                                      | Definitions, units, formulas, and derived-variable logic        |
+| [WHO/UNICEF JMP data downloads](https://washdata.org/data/downloads)                                                                  | Official source-data portal                                     |
+
+---
+
+## 1. Project Overview
+
+Access to safe and reliable drinking water is a central public-health and development issue.
+
+This project examines drinking-water access through several analytical dimensions:
+
+* national, rural, and urban populations;
+* basic, limited, unimproved, and surface-water service levels;
+* country income groups;
+* national population size;
+* urban and rural population shares;
+* regional classifications;
+* changes in access over time.
+
+The main analytical questions are:
+
+1. What does drinking-water access look like across countries in 2020?
+2. How does access differ between national, rural, and urban populations?
+3. Which service-level inequalities are most visible?
+4. Is drinking-water access associated with country income group?
+5. Does population size clearly explain access quality?
+6. How did access to at least basic drinking water change between observations?
+7. Are rural areas progressing faster than urban areas?
+8. Which regions show stronger or weaker rates of progress?
+9. How should ARC be interpreted alongside access levels, missingness, and population scale?
+
+---
+
+## 2. Analytical Progression
+
+| Dimension                  | Part 1                                                     | Part 2                                                                              |
+| -------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Title                      | Understanding the Data                                     | Transforming the Data                                                               |
+| Time perspective           | 2020 snapshot                                              | Paired observations from 2015 to 2020                                               |
+| Primary focus              | Access levels and inequalities                             | Direction and speed of change                                                       |
+| Main analytical grain      | One country or area in 2020                                | Two observations and one comparison per country or area                             |
+| Main comparison dimensions | Area, service level, income group, population              | Area, time interval, ARC, region, population                                        |
+| Principal methods          | Cleaning, validation, descriptive statistics, pivot tables | Feature engineering, paired calculations, ARC, classification, regional aggregation |
+| Central outcome            | Understanding the access landscape                         | Monitoring progress over time                                                       |
+
+The two parts answer different but connected questions:
+
+```text
+Part 1: What does access look like?
+                 |
+                 v
+Part 2: How is access changing?
+                 |
+                 v
+Combined interpretation:
+Where are inequalities present, and how quickly are they changing?
+```
+
+---
+
+## 3. Repository Structure
 
 ```text
 access-to-drinking-water-sdg6/
-├── part-1-understanding-the-data/
-│   ├── assets/
-│   ├── data/
-│   ├── reports/
-│   └── README.md
-│
-├── part-2-transforming-the-data/
-│   ├── assets/
-│   ├── data/
-│   ├── reports/
-│   └── README.md
-│
-└── README.md
+|
+|-- part-1-understanding-the-data/
+|   |-- assets/
+|   |-- data/
+|   |-- reports/
+|   `-- README.md
+|
+|-- part-2-transforming-the-data/
+|   |-- assets/
+|   |   |-- main_visuals/
+|   |   `-- regional_arc_tables/
+|   |
+|   |-- data/
+|   |   |-- README.md
+|   |   `-- data_dictionary.md
+|   |
+|   |-- reports/
+|   |   |-- analytical_report/
+|   |   `-- sheet_exports/
+|   |
+|   `-- README.md
+|
+`-- README.md
 ```
+
+Each project part contains its own documentation, visual assets, data notes, reports, and supporting exports.
 
 ---
 
-# Part 1 — Understanding the Data
+# Part 1: Understanding the Data
 
-[Open Part 1](./part-1-understanding-the-data/)
+## 4. Part 1 Objective
 
-## Objective
+[Open Part 1](./part-1-understanding-the-data/README.md)
 
-Part 1 focuses on understanding the 2020 drinking-water access dataset.
+Part 1 examines the 2020 drinking-water access dataset as a descriptive snapshot.
 
-The analysis begins with data import and cleaning, then moves into population analysis, service-level distributions, urban-rural comparison, population-size patterns, and income-group analysis.
-
-The main purpose of Part 1 is to answer:
+The primary question is:
 
 > What does access to drinking water look like in 2020, and how does it differ across population areas, income groups, and population-size patterns?
 
----
-
-## Part 1 Working Spreadsheet
-
-[Open Part 1 Google Sheets Workbook](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit?usp=sharing)
+The analysis begins with importing and validating the data before examining population representation, service-level distributions, rural-urban inequalities, and income-group patterns.
 
 ---
 
-## Part 1 Dataset Scope
+## 5. Part 1 Analytical Workspace
+
+[Open the Part 1 Google Sheets workbook](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit?usp=sharing)
+
+The Part 1 workbook contains:
+
+* the imported source data;
+* validation and cleaning checks;
+* population calculations;
+* national, rural, and urban access analysis;
+* descriptive statistics;
+* income-group aggregations;
+* charts and supporting outputs.
+
+---
+
+## 6. Part 1 Dataset
 
 Part 1 uses the 2020 drinking-water access dataset.
 
-The original dataset contains 16 features, including:
+The original dataset contains 16 variables covering identification, population, income classification, and drinking-water service levels.
 
-| Variable group | Description |
-|---|---|
-| `name` | Country or area name |
-| `income_group` | Country income classification |
-| `pop_n` | National population estimate, stored in thousands |
-| `pop_u` | Urban population share |
-| `wat_bas_n`, `wat_bas_r`, `wat_bas_u` | At least basic drinking-water access |
-| `wat_lim_*` | Limited drinking-water access |
-| `wat_unimp_*` | Unimproved drinking-water access |
-| `wat_sur_*` | Surface-water reliance |
+### Principal variables
 
-The analysis created additional features such as:
+| Variable group                        | Description                                       |
+| ------------------------------------- | ------------------------------------------------- |
+| `name`                                | Country or area name                              |
+| `income_group`                        | Country income classification                     |
+| `pop_n`                               | National population estimate, stored in thousands |
+| `pop_u`                               | Urban share of the national population            |
+| `wat_bas_n`, `wat_bas_r`, `wat_bas_u` | Access to at least basic drinking-water services  |
+| `wat_lim_*`                           | Access to limited drinking-water services         |
+| `wat_unimp_*`                         | Reliance on unimproved drinking-water sources     |
+| `wat_sur_*`                           | Reliance on surface water                         |
 
-- `value_cnt`
-- `pop_u_val`
-- `pop_r`
-- `pop_n (m)`
-- `wat_bas_n (rounded)`
-- `pop_u (rounded)`
-- `pop_r (rounded)`
+### Derived Part 1 variables
 
-These features support validation, population calculations, chart readability, and service-level interpretation.
+Part 1 created additional fields including:
 
----
+* `value_cnt`;
+* `pop_u_val`;
+* `pop_r`;
+* `pop_n (m)`;
+* rounded national population values;
+* rounded national basic-access values;
+* rounded urban and rural population shares.
 
-## Part 1 Main Analysis Areas
-
-### 1. Data Import and Cleaning
-
-The dataset was imported into Google Sheets and validated to ensure the values were correctly separated into rows and columns.
-
-A helper field, `value_cnt`, was created to count non-empty values per row and detect incorrectly imported records.
-
-This helped identify rows affected by separator issues and ensured that all rows matched the expected 16-column structure.
+These features support import validation, population calculations, chart readability, and descriptive interpretation.
 
 ---
 
-### 2. Population Representation
-
-The analysis compared the dataset population totals with estimated global population values.
-
-Key transformations included:
+## 7. Part 1 Workflow
 
 ```text
-pop_u_val = pop_n × (pop_u / 100)
+Import source data
+    |
+    v
+Validate row and column structure
+    |
+    v
+Create population features
+    |
+    v
+Calculate descriptive statistics
+    |
+    v
+Compare national, rural, and urban access
+    |
+    v
+Examine population-size patterns
+    |
+    v
+Aggregate by income group
+    |
+    v
+Create charts and analytical documentation
 ```
-
-This enabled comparison between:
-
-- dataset national population
-- estimated world population
-- dataset urban population
-- estimated world urban population
-
-Because `pop_n` is stored in thousands, unit conversion was necessary before comparing it with world population estimates.
 
 ---
 
-### 3. Urban and Rural Population Share
+## 8. Part 1 Analysis Areas
 
-A rural population share feature was created:
+### Data import and validation
+
+The dataset was imported into Google Sheets and checked for separator and column-structure problems.
+
+The helper variable `value_cnt` counts non-empty values in each row and helps identify incorrectly imported records.
+
+### Population representation
+
+The analysis compares dataset population totals with external global population estimates.
+
+Urban population values are estimated using:
+
+```text
+pop_u_val = pop_n * (pop_u / 100)
+```
+
+Because `pop_n` is stored in thousands, the analysis requires unit conversion before comparison with population totals expressed in millions or billions.
+
+### Urban and rural population shares
+
+Rural population share is calculated as:
 
 ```text
 pop_r = 100 - pop_u
 ```
 
-This allowed comparison between urban and rural population shares.
+This supports direct comparison between the urban and rural composition of each country or area.
 
-A line chart was created to compare national population size with urban and rural population shares.
+### Access by population area
 
-To improve readability, population values were also transformed into rounded millions using:
+Part 1 compares national, rural, and urban access across four service levels:
+
+* at least basic;
+* limited;
+* unimproved;
+* surface water.
+
+The descriptive measures include:
+
+* minimum;
+* maximum;
+* mean;
+* median;
+* mode;
+* first quartile;
+* third quartile;
+* interquartile range;
+* standard deviation.
+
+### Access by population size
+
+Stacked visualisations examine whether national population size and urban-rural composition clearly explain water-service patterns.
+
+### Access by income group
+
+A pivot-style summary compares income groups using:
+
+* total national population;
+* average urban population share;
+* average national basic access;
+* average national limited access;
+* average national unimproved access;
+* average national surface-water reliance.
+
+Income groups are placed in an ordered sequence to support clearer comparison.
+
+---
+
+## 9. Part 1 Main Findings
+
+The Part 1 results show that:
+
+1. Many countries have high national access to at least basic drinking water.
+2. Urban access is generally higher and less variable than rural access.
+3. Rural populations show greater inequality and higher exposure to limited, unimproved, and surface-water services.
+4. Population size alone does not provide a clear explanation of drinking-water access quality.
+5. Income group shows a strong descriptive association with national water-access quality.
+6. Lower-income groups generally have lower average basic access.
+7. Lower-income groups have greater exposure to limited, unimproved, and surface-water categories.
+8. Higher-income groups generally have near-universal basic access and very low exposure to lower service levels.
+
+These results describe associations and distributional patterns. They do not establish that income or population characteristics cause the observed access outcomes.
+
+---
+
+## 10. Part 1 Outputs
+
+| Output                       | Link                                                                                                                       |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Part 1 project documentation | [Open Part 1 README](./part-1-understanding-the-data/README.md)                                                            |
+| Part 1 analytical report     | [Open analytical report](./part-1-understanding-the-data/reports/analytical_report/Part1_Analytical_Report.md)             |
+| Part 1 assets                | [Open visual assets](./part-1-understanding-the-data/assets/)                                                              |
+| Part 1 reports               | [Open reports](./part-1-understanding-the-data/reports/)                                                                   |
+| Part 1 sheet exports         | [Open sheet exports](./part-1-understanding-the-data/reports/sheet_exports/)                                               |
+| Part 1 workbook              | [Open Google Sheets](https://docs.google.com/spreadsheets/d/1pCvSjxteW4hK8SEjsLpVBqPaN8d4gcre0Xm61JzAP44/edit?usp=sharing) |
+
+---
+
+# Part 2: Transforming the Data
+
+## 11. Part 2 Objective
+
+[Open Part 2](./part-2-transforming-the-data/README.md)
+
+Part 2 extends the project from a descriptive snapshot to a paired-observation progress analysis.
+
+The primary question is:
+
+> Is access to at least basic drinking water improving, declining, or remaining unchanged across countries, population areas, and regions?
+
+The central measure is the **Annual Rate of Change**, abbreviated as **ARC**.
+
+---
+
+## 12. Part 2 Analytical Workspace
+
+[Open the Part 2 Google Sheets workbook](https://docs.google.com/spreadsheets/d/1weIUAGJtGo6sjmPyZFFgbhWa5AapxfpWcgB-moQ2_-s/edit?usp=sharing)
+
+The Part 2 workbook contains:
+
+* the source drinking-water variables;
+* the transformed analytical dataset;
+* paired country observations;
+* year-difference calculations;
+* national, rural, and urban ARC;
+* missing-value handling;
+* approximate full-access flags;
+* rural-urban ARC comparisons;
+* regional classifications;
+* Summary calculations;
+* regional aggregations;
+* four existing charts.
+
+---
+
+## 13. Verified Part 2 Dataset Scope
+
+Although the transformed worksheet is titled:
 
 ```text
-pop_n (m)
+Estimates of the use of water (2000-2020)
+```
+
+the observations retained in the completed analysis cover **2015 to 2020**.
+
+| Measure                                          | Verified result |
+| ------------------------------------------------ | --------------: |
+| Countries or areas                               |             231 |
+| Observations                                     |             462 |
+| Observations per country or area                 |               2 |
+| Earliest analytical year                         |            2015 |
+| Latest analytical year                           |            2020 |
+| Countries or areas with a 2015 baseline          |             231 |
+| Countries or areas with a 2020 later observation |             213 |
+
+The Part 2 dataset is not a complete annual panel. It is primarily a paired-observation dataset.
+
+### Observation-year distribution
+
+|      Year | Observations |
+| --------: | -----------: |
+|      2015 |          231 |
+|      2016 |            3 |
+|      2017 |            9 |
+|      2018 |            2 |
+|      2019 |            4 |
+|      2020 |          213 |
+| **Total** |      **462** |
+
+Approximately 96.1% of all observations belong to either 2015 or 2020.
+
+---
+
+## 14. Part 2 Transformation Workflow
+
+```text
+Source observations
+    |
+    v
+Sort by country and year
+    |
+    v
+Match paired country observations
+    |
+    v
+Calculate the observation interval
+    |
+    v
+Calculate national, rural, and urban ARC
+    |
+    v
+Handle missing and non-calculable values
+    |
+    v
+Create rounded access and full-access flags
+    |
+    v
+Calculate paired rural-urban differences
+    |
+    v
+Assign regions
+    |
+    v
+Create Summary tables and visualisations
+    |
+    v
+Prepare analytical reporting
 ```
 
 ---
 
-### 4. Access by Area
+## 15. Part 2 Derived Measures
 
-The analysis compared the distribution of drinking-water access across:
-
-- national populations
-- rural populations
-- urban populations
-
-For each area, the analysis considered four service levels:
-
-- at least basic
-- limited
-- unimproved
-- surface water
-
-Measures of central tendency and spread were calculated, including:
-
-- maximum
-- minimum
-- mean
-- median
-- mode
-- first quartile
-- third quartile
-- interquartile range
-- standard deviation
-
-A box-and-whisker style visual was used to compare distribution patterns across all 12 access features.
-
----
-
-### 5. Access by Population Size
-
-The analysis used 100% stacked column charts to examine how access to water service levels relates to:
-
-- national population size
-- urban population share
-- rural population share
-
-This helped assess whether access patterns were clearly explained by population size or area-type share.
-
-The findings showed that population size alone does not strongly explain drinking-water access quality.
-
----
-
-### 6. Access by Income Group
-
-A pivot table was created to summarize income groups by:
-
-- total national population
-- average urban population share
-- average national basic access
-- average national limited access
-- average national unimproved access
-- average national surface-water access
-
-Income groups were converted into ordered numerical categories to improve visualization and interpretation.
-
-This analysis showed a strong relationship between income group and drinking-water access quality.
-
----
-
-## Part 1 Key Visual Outputs
-
-The Part 1 visual assets are stored here:
-
-[Part 1 Assets](./part-1-understanding-the-data/assets/)
-
-Main visuals include:
-
-- population versus urban and rural share
-- urban service-level distribution
-- rural service-level distribution
-- income group versus service-level access
-- key findings summary table
-
----
-
-## Part 1 Main Findings
-
-1. **Most countries have high national access to at least basic drinking water.**
-
-2. **Urban populations generally show stronger and more stable access than rural populations.**
-
-3. **Rural areas show greater inequality and higher exposure to limited, unimproved, and surface-water services.**
-
-4. **Population size alone does not clearly explain water-access patterns.**
-
-5. **Income group is one of the strongest explanatory dimensions for national water-access quality.**
-
-6. **Low-income countries show lower average basic access and higher exposure to limited, unimproved, and surface-water categories.**
-
-7. **High-income countries show near-universal basic access and very low exposure to lower service levels.**
-
----
-
-## Part 1 Reports
-
-The Part 1 reporting section is available here:
-
-[Part 1 Reports](./part-1-understanding-the-data/reports/)
-
-Main analytical report:
-
-[Part1_Analytical_Report.md](./part-1-understanding-the-data/reports/analytical_report/Part1_Analytical_Report.md)
-
-Sheet exports:
-
-[Part 1 Sheet Exports](./part-1-understanding-the-data/reports/sheet_exports/)
-
----
-
-# Part 2 — Transforming the Data
-
-[Open Part 2](./part-2-transforming-the-data/)
-
-## Objective
-
-Part 2 extends the analysis from a 2020 snapshot into a multi-year progress analysis.
-
-The focus shifts from describing access levels to measuring change over time.
-
-The main question becomes:
-
-> Is access to at least basic drinking water improving, declining, or stagnating across countries, population areas, and regions?
-
-The central metric used in Part 2 is **Annual Rate of Change (ARC)**.
-
----
-
-## Part 2 Working Spreadsheet
-
-[Open Part 2 Google Sheets Workbook](https://docs.google.com/spreadsheets/d/1weIUAGJtGo6sjmPyZFFgbhWa5AapxfpWcgB-moQ2_-s/edit?usp=sharing)
-
----
-
-## Part 2 Dataset Scope
-
-Part 2 uses a multi-year drinking-water access dataset covering observations between 2000 and 2020.
-
-The dataset differs from Part 1 in two important ways:
-
-| Part 1 | Part 2 |
-|---|---|
-| 2020 snapshot | 2000–2020 observations |
-| Includes `income_group` | Removes `income_group` |
-| No year-to-year comparison | Adds `year` |
-| Descriptive access analysis | Progress-monitoring analysis |
-
-The analytical grain is:
-
-> One country or area observed in one specific year.
-
-The dataset is not a complete annual panel. Most observations are concentrated around 2015 and 2020, with a small number of observations from intermediate years.
-
----
-
-## Part 2 Transformation Workflow
-
-```text
-Source data
-    ↓
-Country and year sorting
-    ↓
-Year-difference calculation
-    ↓
-Annual Rate of Change calculation
-    ↓
-Missing-value and error handling
-    ↓
-Full-access classification
-    ↓
-Rural–urban ARC comparison
-    ↓
-Regional lookup and enrichment
-    ↓
-Summary tables and visual analysis
-    ↓
-Analytical reporting
-```
-
----
-
-## Part 2 Key Derived Features
-
-### `y_diff`
-
-Measures the number of years between two observations for the same country.
+### Observation interval
 
 ```text
 y_diff = later year - earlier year
 ```
 
-This feature supports:
+| Statistic             |     Result |
+| --------------------- | ---------: |
+| Average `y_diff`      | 4.80 years |
+| Median `y_diff`       |    5 years |
+| Minimum `y_diff`      |     1 year |
+| Maximum `y_diff`      |    5 years |
+| Zero-year comparisons |          0 |
 
-- observation interval validation
-- duplicate detection
-- ARC calculation
-
----
-
-### `ARC_n`
-
-Annual Rate of Change in national access to at least basic drinking water.
+### Annual Rate of Change
 
 ```text
-ARC_n =
-(later national basic access - earlier national basic access)
+ARC =
+(later access percentage - earlier access percentage)
 /
-year difference
+(later year - earlier year)
 ```
 
----
+ARC is expressed in:
 
-### `ARC_r`
+```text
+percentage points per year
+```
 
-Annual Rate of Change in rural access to at least basic drinking water.
+| Variable | Meaning                                      |
+| -------- | -------------------------------------------- |
+| `ARC_n`  | Annual change in national basic-water access |
+| `ARC_r`  | Annual change in rural basic-water access    |
+| `ARC_u`  | Annual change in urban basic-water access    |
 
----
+### Approximate full-access flags
 
-### `ARC_u`
+The following variables separate continued full access from zero progress below full access:
 
-Annual Rate of Change in urban access to at least basic drinking water.
+* `ARC_n_full`;
+* `ARC_r_full`;
+* `ARC_u_full`.
 
-All ARC values are interpreted in:
+The source access values are rounded to zero decimal places. Both paired values must round to 100.
 
-> Percentage points per year.
+These fields therefore identify **approximate full access**, not necessarily unrounded values of exactly 100.000%.
 
----
-
-### Full-Access Flags
-
-The following fields identify cases where access was approximately full in both observation years:
-
-- `ARC_n_full`
-- `ARC_r_full`
-- `ARC_u_full`
-
-These flags separate:
-
-- zero ARC because access was already complete
-- zero ARC because access did not improve below full coverage
-
-This prevents misleading interpretation of zero values.
-
----
-
-### `ARC_diff`
-
-Compares rural and urban progress:
+### Rural-urban ARC difference
 
 ```text
 ARC_diff = ARC_r - ARC_u
 ```
 
-Interpretation:
+| Result   | Interpretation                                |
+| -------- | --------------------------------------------- |
+| Positive | Rural ARC is numerically higher               |
+| Negative | Urban ARC is numerically higher               |
+| Zero     | Rural and urban ARC are equal                 |
+| Missing  | Rural ARC, urban ARC, or both are unavailable |
 
-- `ARC_diff > 0` — rural access improved faster
-- `ARC_diff < 0` — urban access improved faster
-- `ARC_diff ≈ 0` — rural and urban progress were similar
-
----
-
-### `region`
-
-Adds regional classification through lookup-based enrichment.
-
-Regions analyzed:
-
-- East Asia & Pacific
-- Europe & Central Asia
-- Latin America & Caribbean
-- Middle East & North Africa
-- North America
-- South Asia
-- Sub-Saharan Africa
+A positive value normally indicates faster rural improvement. If both ARC values are negative, it can instead indicate that rural access declined more slowly.
 
 ---
 
-## Part 2 Key Visual Outputs
+## 16. Part 2 ARC Results
 
-The Part 2 visual assets are stored here:
+### Summary statistics
 
-[Part 2 Assets](./part-2-transforming-the-data/assets/)
+| Statistic      | National ARC | Rural ARC | Urban ARC |
+| -------------- | -----------: | --------: | --------: |
+| Valid values   |          229 |       167 |       181 |
+| Missing values |            2 |        64 |        50 |
+| Average        |        0.277 |     0.484 |     0.155 |
+| Median         |        0.079 |     0.290 |     0.030 |
+| Minimum        |       -1.022 |    -1.227 |    -1.620 |
+| Maximum        |        2.750 |     2.668 |     2.668 |
 
-Main visuals:
+Rural ARC has the highest mean and median.
 
-- year distribution histogram
-- average rural-urban ARC difference by region
-- average rural and urban ARC by region
-- regional progress in basic water access with population scale
+This describes a higher rate of change, not a higher level of rural access.
 
-Supporting regional ARC tables are also included:
+### Progress classifications
 
-[Part 2 Regional ARC Tables](./part-2-transforming-the-data/assets/regional_arc_tables/)
+| Classification                 | National |   Rural |   Urban |
+| ------------------------------ | -------: | ------: | ------: |
+| Missing ARC                    |        2 |      64 |      50 |
+| Full access                    |       62 |      29 |      55 |
+| Zero ARC below full access     |       16 |       5 |       7 |
+| Negative ARC below full access |       16 |      17 |      26 |
+| Positive ARC below full access |      135 |     116 |      93 |
+| **Total**                      |  **231** | **231** | **231** |
 
----
+Positive ARC below full access is the largest category for national, rural, and urban populations.
 
-## Part 2 Main Findings
+### Paired rural-urban results
 
-1. **The dataset is mainly concentrated around 2015 and 2020.**
+| Metric                  | Result |
+| ----------------------- | -----: |
+| Valid `ARC_diff` values |    165 |
+| Missing paired values   |     66 |
+| Positive differences    |    112 |
+| Negative differences    |     23 |
+| Zero differences        |     30 |
+| Average `ARC_diff`      |  0.321 |
+| Median `ARC_diff`       |  0.212 |
+| Minimum `ARC_diff`      | -2.489 |
+| Maximum `ARC_diff`      |  2.329 |
 
-2. **The dataset is not a complete annual time series, so `y_diff` is required before calculating ARC.**
-
-3. **Average rural ARC is higher than average urban ARC.**
-
-4. **Rural access improved faster than urban access across all regions on average.**
-
-5. **Faster rural progress does not mean rural access has surpassed urban access.**
-
-6. **Urban ARC can be lower because many urban populations already had high or full access.**
-
-7. **Full-access classification improves interpretation of zero ARC values.**
-
-8. **Regional averages hide strong country-level variation.**
-
-9. **Population size alone does not explain the speed of progress.**
-
-10. **Sub-Saharan Africa and South Asia combine large population scale with meaningful progress indicators.**
-
----
-
-## Part 2 Regional Summary
-
-| Region | Countries | Population (millions) | Avg `ARC_n` | Avg `ARC_r` | Avg `ARC_u` |
-|---|---:|---:|---:|---:|---:|
-| East Asia & Pacific | 40 | 2,247.54 | 0.28 | 0.51 | 0.23 |
-| Europe & Central Asia | 64 | 1,017.48 | 0.11 | 0.22 | 0.05 |
-| Latin America & Caribbean | 48 | 642.51 | 0.14 | 0.68 | 0.07 |
-| Middle East & North Africa | 10 | 311.07 | 0.35 | 0.74 | 0.12 |
-| North America | 5 | 368.87 | 0.02 | 0.14 | 0.00 |
-| South Asia | 11 | 2,082.32 | 0.48 | 0.56 | 0.27 |
-| Sub-Saharan Africa | 53 | 1,124.03 | 0.56 | 0.60 | 0.27 |
-| Grand Total | 231 | 7,793.82 | 0.2767 | 0.4845 | 0.1548 |
+Rural ARC is numerically higher in approximately 67.9% of the valid paired comparisons.
 
 ---
 
-## Part 2 Reports
+## 17. Part 2 Regional Results
 
-The Part 2 reporting section is available here:
+| Region                     | Countries or areas | Population (millions) | Average `ARC_n` | Average `ARC_r` | Average `ARC_u` |
+| -------------------------- | -----------------: | --------------------: | --------------: | --------------: | --------------: |
+| East Asia & Pacific        |                 40 |               2,247.5 |           0.278 |           0.508 |           0.233 |
+| Europe & Central Asia      |                 64 |               1,017.5 |           0.112 |           0.224 |           0.047 |
+| Latin America & Caribbean  |                 48 |                 642.5 |           0.144 |           0.680 |           0.072 |
+| Middle East & North Africa |                 10 |                 311.1 |           0.346 |           0.737 |           0.124 |
+| North America              |                  5 |                 368.9 |           0.017 |           0.142 |           0.002 |
+| South Asia                 |                 11 |               2,082.3 |           0.480 |           0.559 |           0.266 |
+| Sub-Saharan Africa         |                 53 |               1,124.0 |           0.558 |           0.604 |           0.270 |
+| **Total or overall value** |            **231** |           **7,793.8** |       **0.277** |       **0.484** |       **0.155** |
 
-[Part 2 Reports](./part-2-transforming-the-data/reports/)
+### Regional highlights
 
-Main analytical report:
+* East Asia & Pacific has the largest regional population total.
+* Europe & Central Asia has the largest country or area count.
+* Middle East & North Africa has the highest average rural ARC.
+* Sub-Saharan Africa has the highest average national and urban ARC.
+* South Asia combines a large population with comparatively strong progress.
+* North America has the lowest ARC in all three population areas.
 
-[Part2_Analytical_Report.md](./part-2-transforming-the-data/reports/analytical_report/Part2_Analytical_Report.md)
+The regional ARC values are unweighted country averages. Each valid country contributes equally, regardless of population size.
 
-Sheet exports:
-
-[Part 2 Sheet Exports](./part-2-transforming-the-data/reports/sheet_exports/)
-
-Data documentation:
-
-[Part 2 Data Documentation](./part-2-transforming-the-data/data/)
-
-Data dictionary:
-
-[Part 2 Data Dictionary](./part-2-transforming-the-data/data/data_dictionary.md)
+The population values do not represent the number of people who gained access.
 
 ---
 
-# Cross-Part Analytical Story
+## 18. Part 2 Visual Outputs
 
-Part 1 and Part 2 work together as a complete data analysis project.
+The detailed visual documentation is available in:
 
-## Part 1 contribution
+[Part 2 Main Visuals](./part-2-transforming-the-data/assets/main_visuals/README.md)
 
-Part 1 establishes the baseline understanding of the 2020 dataset.
+The four existing charts are:
+
+1. observation frequency by year;
+2. average paired rural-urban ARC difference by region;
+3. independently calculated rural and urban ARC by region;
+4. regional population with national and rural ARC.
+
+Supporting regional screenshots are documented in:
+
+[Part 2 Regional ARC Tables](./part-2-transforming-the-data/assets/regional_arc_tables/README.md)
+
+### Current Part 2 completion notes
+
+The current Summary sheet does not yet display:
+
+* median national ARC;
+* median rural ARC;
+* median urban ARC;
+* the required country-level `ARC_diff` histogram.
+
+The medians have been verified and are documented in the Part 2 analytical report.
+
+The existing regional average `ARC_diff` chart does not replace the missing country-level histogram because it cannot show the distribution of the 165 valid country values.
+
+---
+
+## 19. Part 2 Outputs
+
+| Output                       | Link                                                                                                                       |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Part 2 project documentation | [Open Part 2 README](./part-2-transforming-the-data/README.md)                                                             |
+| Part 2 analytical report     | [Open analytical report](./part-2-transforming-the-data/reports/analytical_report/Part2_Analytical_Report.md)              |
+| Part 2 data documentation    | [Open data README](./part-2-transforming-the-data/data/README.md)                                                          |
+| Part 2 data dictionary       | [Open data dictionary](./part-2-transforming-the-data/data/data_dictionary.md)                                             |
+| Part 2 assets                | [Open visual assets](./part-2-transforming-the-data/assets/README.md)                                                      |
+| Part 2 reports               | [Open reports](./part-2-transforming-the-data/reports/README.md)                                                           |
+| Part 2 sheet exports         | [Open sheet exports](./part-2-transforming-the-data/reports/sheet_exports/README.md)                                       |
+| Part 2 workbook              | [Open Google Sheets](https://docs.google.com/spreadsheets/d/1weIUAGJtGo6sjmPyZFFgbhWa5AapxfpWcgB-moQ2_-s/edit?usp=sharing) |
+
+---
+
+# Combined Analytical Story
+
+## 20. What Part 1 Establishes
+
+Part 1 establishes the descriptive access landscape.
 
 It shows that:
 
-- urban access is generally stronger than rural access;
-- rural populations are more exposed to lower service levels;
-- income group is strongly associated with water-access quality;
-- population size alone does not explain access patterns.
+* urban access is generally stronger and less variable than rural access;
+* rural populations face greater exposure to lower service levels;
+* income group is strongly associated with access quality;
+* population size alone does not clearly explain access patterns.
 
-## Part 2 contribution
+These findings identify where inequality is visible.
+
+---
+
+## 21. What Part 2 Adds
 
 Part 2 adds the time dimension.
 
 It shows that:
 
-- access is generally improving;
-- rural areas often improve faster than urban areas;
-- full-access cases must be separated from stagnation;
-- regional progress differs strongly;
-- country-level variation remains important.
+* positive change below full access is common;
+* rural ARC is generally higher than urban ARC;
+* rural ARC is numerically higher in most valid paired country comparisons;
+* all seven regional paired `ARC_diff` averages are positive;
+* full-access cases must be separated from stagnation;
+* regional progress patterns differ;
+* country-level variation remains important;
+* population size alone does not explain the speed of progress.
 
-## Combined interpretation
+These findings describe how access is changing.
 
-Together, the two parts show that drinking-water access inequality is not explained by one factor alone.
+---
 
-Access patterns depend on:
+## 22. Combined Interpretation
 
-- area type
-- income group
-- baseline access level
-- rural-urban structure
-- regional context
-- population scale
-- rate of change over time
+Together, the two parts show that drinking-water access inequality cannot be explained by a single factor.
 
-The combined project moves from:
+The results must be interpreted through:
+
+* population area;
+* service level;
+* income group;
+* baseline access;
+* final access;
+* observation interval;
+* regional context;
+* population scale;
+* missing-data patterns;
+* rate of change.
+
+The combined analytical progression is:
 
 ```text
-Understanding current access
-        ↓
-Measuring progress over time
-        ↓
-Interpreting inequality through context
+Understand current access
+          |
+          v
+Identify inequalities
+          |
+          v
+Measure progress over time
+          |
+          v
+Interpret progress within context
 ```
 
----
+A higher rate of rural improvement is consistent with rural catch-up, but it does not mean that rural access has reached the urban level.
 
-## Skills Demonstrated
-
-This project demonstrates the following data analysis skills:
-
-- spreadsheet-based data cleaning
-- data validation
-- feature engineering
-- unit conversion
-- missing-value handling
-- row-level transformation
-- conditional logic
-- lookup-based enrichment
-- pivot tables
-- summary statistics
-- interquartile range and spread analysis
-- Annual Rate of Change calculation
-- progress classification
-- regional aggregation
-- visual analytics
-- data storytelling
-- analytical documentation
-- GitHub portfolio organization
+Similarly, low ARC does not automatically indicate poor performance. It can reflect limited remaining room for improvement when access is already close to universal.
 
 ---
 
-## Tools Used
+## 23. Tools Used
 
-- Google Sheets
-- GitHub
-- Markdown
-- CSV data
-- Spreadsheet formulas
-- Pivot tables
-- Charts and exported visual assets
+The project uses:
 
----
+* Google Sheets;
+* spreadsheet formulas;
+* conditional logic;
+* lookup functions;
+* pivot tables;
+* charts;
+* PDF worksheet exports;
+* PNG visual assets;
+* Markdown;
+* GitHub.
 
-## Main Repository Outputs
-
-| Output | Link |
-|---|---|
-| Part 1 project folder | [part-1-understanding-the-data/](./part-1-understanding-the-data/) |
-| Part 1 analytical report | [Part1_Analytical_Report.md](./part-1-understanding-the-data/reports/analytical_report/Part1_Analytical_Report.md) |
-| Part 1 sheet exports | [Part 1 sheet_exports/](./part-1-understanding-the-data/reports/sheet_exports/) |
-| Part 2 project folder | [part-2-transforming-the-data/](./part-2-transforming-the-data/) |
-| Part 2 analytical report | [Part2_Analytical_Report.md](./part-2-transforming-the-data/reports/analytical_report/Part2_Analytical_Report.md) |
-| Part 2 sheet exports | [Part 2 sheet_exports/](./part-2-transforming-the-data/reports/sheet_exports/) |
-| Part 2 data dictionary | [data_dictionary.md](./part-2-transforming-the-data/data/data_dictionary.md) |
+The Google Sheets workbooks remain the dynamic analytical workspaces for formula and calculation inspection.
 
 ---
 
-## Limitations
+## 24. Skills Demonstrated
 
-This project is descriptive and exploratory.
+This project demonstrates:
 
-It identifies patterns and associations but does not establish causality.
-
-Main limitations include:
-
-- the Part 1 dataset is a 2020 snapshot;
-- the Part 2 dataset is not a complete annual panel;
-- most Part 2 observations are concentrated around 2015 and 2020;
-- missing rural and urban values affect some ARC calculations;
-- regional ARC values are simple country-level averages unless otherwise specified;
-- population-weighted ARC was not calculated;
-- ARC measures speed of progress, not final access level;
-- high ARC may reflect low baseline access;
-- low ARC may reflect already high or full access;
-- country-level context is needed for deeper interpretation.
+* spreadsheet-based data cleaning;
+* import validation;
+* feature engineering;
+* unit conversion;
+* missing-value handling;
+* descriptive statistics;
+* quartile and spread analysis;
+* population calculations;
+* area-based comparison;
+* income-group aggregation;
+* paired-observation logic;
+* time-interval calculation;
+* Annual Rate of Change methodology;
+* approximate full-access classification;
+* rural-urban progress comparison;
+* lookup-based regional enrichment;
+* regional aggregation;
+* visual analysis;
+* analytical interpretation;
+* data storytelling;
+* methodological documentation;
+* critical assessment of limitations;
+* GitHub portfolio organisation.
 
 ---
 
-## Future Improvements
+## 25. Methodological Limitations
+
+This project is descriptive and exploratory. It identifies patterns and associations but does not establish causality.
+
+### Part 1 limitations
+
+* Part 1 is a 2020 snapshot.
+* Cross-sectional associations do not show how access changed over time.
+* Country-level averages can hide within-country inequality.
+* Income-group patterns should not be interpreted as causal effects.
+* Population size alone does not describe infrastructure, geography, governance, or investment.
+
+### Part 2 limitations
+
+* The completed analytical observations cover 2015 to 2020.
+* The data contains paired observations rather than a complete annual panel.
+* Rural and urban variables contain substantial missingness.
+* Full-access flags use values rounded to zero decimal places.
+* Independent rural and urban averages can use different country samples.
+* Regional ARC values are unweighted country averages.
+* Population-weighted ARC was not calculated.
+* Regional population totals do not measure beneficiaries.
+* ARC measures the speed of change, not the final access level.
+* High ARC can partly reflect a low starting level.
+* Low ARC can partly reflect an access ceiling.
+* Regional averages hide country-level variation.
+* The country-level `ARC_diff` histogram is not yet present.
+* The verified ARC medians are not yet displayed in the Summary sheet.
+
+### Repository limitations
+
+* PDF exports provide fixed spreadsheet evidence but do not expose formulas.
+* PNG regional tables are screenshots rather than machine-readable tables.
+* Larger regional screenshots can display only visible excerpts.
+* Part 2 does not currently contain machine-readable CSV or XLSX exports of its transformed calculations.
+* Direct formula inspection requires the Google Sheets workbooks.
+
+---
+
+## 26. Reproducibility
+
+The repository documents the analytical workflow through:
+
+* project READMEs;
+* data documentation;
+* data dictionaries;
+* analytical reports;
+* sheet exports;
+* chart images;
+* supporting table screenshots;
+* links to the Google Sheets workbooks.
+
+Reproducibility would be improved by adding:
+
+* machine-readable exports of the transformed datasets;
+* machine-readable Summary and aggregation tables;
+* a formula-reference document;
+* country-level `ARC_diff` data;
+* reproducible Python or R scripts;
+* versioned source-data snapshots;
+* automated validation checks.
+
+---
+
+## 27. Recommended Future Improvements
 
 The project could be extended by:
 
-- reproducing the workflow in Python or R;
-- building an interactive dashboard;
-- calculating population-weighted regional ARC;
-- comparing baseline and final access levels directly;
-- ranking countries by strongest improvement and strongest decline;
-- mapping access and ARC geographically;
-- adding socioeconomic indicators;
-- analyzing additional years if available;
-- creating country-level profiles for high-priority cases;
-- developing a final LinkedIn carousel or portfolio case-study presentation.
+1. adding the verified Part 2 ARC medians to the Summary sheet;
+2. creating the required country-level `ARC_diff` histogram;
+3. adding valid sample sizes to regional ARC charts;
+4. exporting transformed data in CSV or XLSX format;
+5. calculating population-weighted regional ARC as a separate measure;
+6. comparing baseline and final access levels directly;
+7. ranking countries by the strongest improvement and decline;
+8. reproducing the workflow in Python or R;
+9. building an interactive dashboard;
+10. mapping access levels and ARC geographically;
+11. incorporating socioeconomic and infrastructure indicators;
+12. adding uncertainty estimates where available;
+13. creating country-level profiles for priority cases;
+14. developing a portfolio presentation or interactive case study.
+
+Population-weighted and unweighted results should remain separate because they answer different analytical questions.
 
 ---
 
-## Final Conclusion
+## 28. Recommended Review Order
 
-This project shows how drinking-water access can be analyzed from two complementary perspectives.
+For the clearest understanding of the complete project:
 
-Part 1 explains the 2020 access landscape.
+1. Read the [Part 1 README](./part-1-understanding-the-data/README.md).
+2. Review the [Part 1 Analytical Report](./part-1-understanding-the-data/reports/analytical_report/Part1_Analytical_Report.md).
+3. Read the [Part 2 README](./part-2-transforming-the-data/README.md).
+4. Review the [Part 2 Analytical Report](./part-2-transforming-the-data/reports/analytical_report/Part2_Analytical_Report.md).
+5. Consult the Part 2 [Data Dictionary](./part-2-transforming-the-data/data/data_dictionary.md).
+6. Review the visual and spreadsheet evidence in each part.
+7. Open the Google Sheets workbooks when formula-level inspection is required.
 
-Part 2 measures progress over time.
+---
+
+## 29. Final Conclusion
+
+This repository analyses global drinking-water access from two complementary perspectives.
+
+Part 1 describes the 2020 access landscape and identifies inequalities across population areas, service levels, income groups, and population structures.
+
+Part 2 measures the direction and speed of change between paired observations from 2015 to 2020.
+
+The combined evidence shows that access to at least basic drinking water improved in many countries. Rural ARC is generally higher than urban ARC, which is consistent with rural catch-up.
+
+However, faster improvement does not mean that inequality has disappeared.
 
 The main conclusion is:
 
-> Access to at least basic drinking water has generally improved, especially in rural areas, but improvement speed alone does not mean inequality has disappeared. Drinking-water progress must be interpreted through area type, income group, regional context, baseline access, population scale, and the rate of change over time.
+> Drinking-water access must be interpreted through both current conditions and change over time. Access levels show the remaining inequality, while ARC shows the direction and speed of progress.
 
-This repository presents the full workflow from spreadsheet-based data cleaning and transformation to visual analysis, analytical reporting, and portfolio-ready documentation.
+The project demonstrates a complete spreadsheet-based analytical workflow, from data cleaning and transformation to statistical description, regional comparison, visual analysis, reporting, and portfolio-ready GitHub documentation.
