@@ -1,47 +1,128 @@
 # Regional ARC Tables — Part 2: Transforming the Data
 
-This folder contains country-level regional tables supporting the Annual Rate of Change analysis in Part 2 of the **Access to Drinking Water** project.
+This folder contains seven regional table screenshots supporting the Annual Rate of Change analysis in Part 2 of the **Access to Drinking Water** project.
 
-The tables provide the detailed observations behind the regional averages presented in the main visualizations. They make it possible to trace regional results back to individual countries and inspect differences in national, rural, and urban progress.
+The screenshots provide country-level examples behind the regional averages presented in the main visualisations. They help illustrate:
+
+* national, rural and urban ARC;
+* positive, zero and negative change;
+* missing rural or urban estimates;
+* different observation intervals;
+* variation among countries within the same region.
 
 These tables are supporting analytical evidence rather than primary visual outputs.
 
 ---
 
+## Files Included
+
+| Number | Region                     | Countries or areas in full regional Summary | Image                                       |
+| -----: | -------------------------- | ------------------------------------------: | ------------------------------------------- |
+|     01 | East Asia & Pacific        |                                          40 | `01_east_asia_pacific_arc_table.png`        |
+|     02 | Europe & Central Asia      |                                          64 | `02_europe_central_asia_arc_table.png`      |
+|     03 | Latin America & Caribbean  |                                          48 | `03_latin_america_caribbean_arc_table.png`  |
+|     04 | Middle East & North Africa |                                          10 | `04_middle_east_north_africa_arc_table.png` |
+|     05 | North America              |                                           5 | `05_north_america_arc_table.png`            |
+|     06 | South Asia                 |                                          11 | `06_south_asia_arc_table.png`               |
+|     07 | Sub-Saharan Africa         |                                          53 | `07_sub_saharan_africa_arc_table.png`       |
+
+---
+
+## Screenshot-Coverage Limitation
+
+The PNG files are screenshots of the Google Sheets regional tables.
+
+The larger regional screenshots do not necessarily display every country or area included in the complete regional Summary. In particular, tables containing many countries may show only the visible upper section of the Google Sheets table.
+
+Therefore, these screenshots:
+
+* illustrate country-level calculations;
+* provide selected examples of regional variation;
+* do not replace complete machine-readable regional exports;
+* should not be used alone to reconstruct every regional average.
+
+The complete spreadsheet and Summary calculations remain the authoritative analytical sources.
+
+For full reproducibility, future versions of the repository should add regional CSV files containing every country-level record.
+
+---
+
 ## Variables Included
 
-Each table contains the following fields:
+Each screenshot contains the following fields:
 
-| Variable               | Description                                          |
-| ---------------------- | ---------------------------------------------------- |
-| `name`                 | Country or area name                                 |
-| `region`               | Regional classification                              |
-| `year`                 | Observation year                                     |
-| `pop_n (in thousands)` | National population estimate in thousands            |
-| `pop_n (Millions)`     | National population converted to millions            |
-| `ARC_n`                | Annual Rate of Change in national basic water access |
-| `ARC_r`                | Annual Rate of Change in rural basic water access    |
-| `ARC_u`                | Annual Rate of Change in urban basic water access    |
+| Variable               | Description                                 |
+| ---------------------- | ------------------------------------------- |
+| `name`                 | Country or area name                        |
+| `region`               | Regional classification used in the project |
+| `year`                 | Observation year                            |
+| `pop_n (in thousands)` | National population estimate in thousands   |
+| `pop_n (Millions)`     | National population converted into millions |
+| `ARC_n`                | National Annual Rate of Change              |
+| `ARC_r`                | Rural Annual Rate of Change                 |
+| `ARC_u`                | Urban Annual Rate of Change                 |
 
-ARC values are interpreted in **percentage points per year**.
+All ARC values are expressed in:
 
-* `ARC > 0` indicates improvement.
-* `ARC = 0` indicates no measured change or an already stable access level.
-* `ARC < 0` indicates declining access.
-* `Null` indicates that the ARC could not be calculated because the required values were unavailable.
+> Percentage points per year.
+
+---
+
+## ARC Interpretation
+
+| Result    | Interpretation                                                                   |
+| --------- | -------------------------------------------------------------------------------- |
+| `ARC > 0` | Access increased                                                                 |
+| `ARC = 0` | No measured change                                                               |
+| `ARC < 0` | Access decreased                                                                 |
+| `Null`    | ARC could not be calculated because one or more required values were unavailable |
+| Blank     | No calculation is displayed on that row                                          |
+
+A zero ARC requires additional context. It may indicate:
+
+* unchanged access below full coverage;
+* access already at or near 100%;
+* stable estimates between observations.
+
+The full-access classification fields should be consulted before interpreting zero ARC as stagnation.
 
 ---
 
 ## Table Structure
 
-Each country is generally represented by two rows:
+Each country or area is generally represented by two consecutive rows.
 
-* the earlier observation year contains the calculated ARC values;
-* the later observation year contains the population estimate used in the regional analysis.
+### Earlier observation row
 
-This structure reflects the row-to-row calculation method used in the Google Sheets workbook.
+The earlier row usually contains:
 
-The tables should therefore be interpreted by reading both rows belonging to the same country together.
+* the country or area name;
+* region;
+* earlier year;
+* `ARC_n`;
+* `ARC_r`;
+* `ARC_u`.
+
+### Later observation row
+
+The later row usually contains:
+
+* the same country or area name;
+* region;
+* later year;
+* national population in thousands;
+* national population converted into millions.
+
+The ARC calculation uses both rows:
+
+```text
+ARC =
+(later access value - earlier access value)
+/
+(later year - earlier year)
+```
+
+The two rows belonging to the same country must therefore be interpreted together.
 
 ---
 
@@ -49,21 +130,37 @@ The tables should therefore be interpreted by reading both rows belonging to the
 
 ![East Asia & Pacific ARC Table](./01_east_asia_pacific_arc_table.png)
 
-This table contains country-level ARC results for East Asia & Pacific.
+### Visible examples
 
-### Notable observations
+The displayed excerpt includes several different progress patterns.
 
-* **China** records positive national and rural ARC values, while its urban ARC is slightly negative.
-* **Cambodia** shows positive progress across national, rural, and urban access.
-* **Democratic People's Republic of Korea** records negative ARC values across all three population areas.
-* **Fiji** shows a small positive national ARC but negative rural and urban values.
-* Several countries and territories contain `Null` values where rural or urban estimates were unavailable.
+* **Cambodia** has positive national, rural and urban ARC.
+* **China** has positive national and rural ARC but slightly negative urban ARC.
+* **Democratic People's Republic of Korea** has negative national, rural and urban ARC.
+* **Fiji** has slightly positive national ARC but negative rural and urban ARC.
+* **Australia** has zero national, rural and urban ARC in the displayed comparison.
+* Several countries and areas contain `Null` rural or urban values.
 
-### Analytical interpretation
+Selected visible values:
 
-The region shows considerable variation. Some countries experienced broad improvement, while others recorded declines or incomplete area-level data.
+| Country or area                       | `ARC_n` | `ARC_r` | `ARC_u` |
+| ------------------------------------- | ------: | ------: | ------: |
+| Cambodia                              |  0.5552 |  0.4712 |  0.3820 |
+| China                                 |  0.4997 |  1.0364 | -0.0810 |
+| Democratic People's Republic of Korea | -0.2742 | -0.5727 | -0.1150 |
+| Fiji                                  |  0.0077 | -0.0581 | -0.0218 |
 
-The strong rural ARC observed in countries such as China contributes to the region’s average rural progress, but the negative country-level cases show that the regional average does not describe every country equally.
+### Interpretation
+
+The visible excerpt demonstrates that one regional average can contain:
+
+* broad positive progress;
+* mixed rural and urban results;
+* declines;
+* zero change;
+* missing area-level values.
+
+China’s comparatively high rural ARC illustrates one source of strong rural progress within the displayed countries. However, the screenshot alone does not measure each country’s exact influence on the complete regional average.
 
 ---
 
@@ -71,21 +168,29 @@ The strong rural ARC observed in countries such as China contributes to the regi
 
 ![Europe & Central Asia ARC Table](./02_europe_central_asia_arc_table.png)
 
-This table contains country-level ARC results for Europe & Central Asia.
+### Visible examples
 
-### Notable observations
+* **Albania** has positive national, rural and urban ARC.
+* **Armenia** also has positive values across the three measures.
+* **Azerbaijan** has particularly high rural ARC.
+* **Bulgaria** has negative national, rural and urban ARC.
+* **Andorra**, **Austria** and **Belgium** display zero ARC values.
+* Some countries and areas contain unavailable rural or urban values.
 
-* **Azerbaijan** records strong positive rural progress relative to national and urban progress.
-* **Albania** and **Armenia** show positive ARC values across population areas.
-* **Bulgaria** records negative national, rural, and urban ARC values.
-* Several countries, including **Austria**, **Belgium**, and **Andorra**, show zero ARC values.
-* Some rural and urban values are unavailable and represented as `Null`.
+Selected visible values:
 
-### Analytical interpretation
+| Country or area | `ARC_n` | `ARC_r` | `ARC_u` |
+| --------------- | ------: | ------: | ------: |
+| Albania         |  0.3347 |  0.6928 |  0.0437 |
+| Armenia         |  0.0837 |  0.1890 |  0.0221 |
+| Azerbaijan      |  0.7246 |  1.3565 |  0.1458 |
+| Bulgaria        | -0.0370 | -0.1230 | -0.0165 |
 
-The region contains many low or zero ARC values, which may reflect high baseline access and limited remaining room for improvement.
+### Interpretation
 
-However, the presence of both strong positive and negative country-level results demonstrates that the regional average hides meaningful internal variation.
+The visible table contains many low or zero values alongside positive and negative cases.
+
+Low ARC may be consistent with limited remaining room for improvement when baseline access is already high. However, baseline access is not displayed in this screenshot, so a ceiling effect should be treated as contextual interpretation rather than a conclusion derived from this table alone.
 
 ---
 
@@ -93,23 +198,27 @@ However, the presence of both strong positive and negative country-level results
 
 ![Latin America & Caribbean ARC Table](./03_latin_america_caribbean_arc_table.png)
 
-This table contains country-level ARC results for Latin America & Caribbean.
+### Visible examples
 
-### Notable observations
+* **Belize** has positive national and rural ARC but slightly negative urban ARC.
+* **Bolivia (Plurinational State of)** has high rural ARC.
+* **Brazil** also has particularly high rural ARC.
+* Several island states and territories contain zero or missing values.
+* The displayed countries use different later observation years, including 2016, 2017, 2019 and 2020.
 
-* **Brazil** records strong rural improvement compared with its national and urban ARC values.
-* **Bolivia (Plurinational State of)** also shows substantial rural progress.
-* **Belize** records positive national and rural ARC values but a slightly negative urban ARC.
-* Several island states and territories contain zero or unavailable ARC values.
-* The region includes countries with different observation intervals, including 2015–2017, 2015–2019, and 2015–2020.
+Selected visible values:
 
-### Analytical interpretation
+| Country or area                  | `ARC_n` | `ARC_r` | `ARC_u` |
+| -------------------------------- | ------: | ------: | ------: |
+| Belize                           |  0.2453 |  0.4683 | -0.0253 |
+| Bolivia (Plurinational State of) |  0.5856 |  1.2393 |  0.1864 |
+| Brazil                           |  0.3035 |  1.4378 |  0.1035 |
 
-The table supports the strong rural catch-up pattern visible in the regional charts.
+### Interpretation
 
-Large rural ARC values in countries such as Brazil and Bolivia raise the regional average, while urban progress remains smaller in several cases.
+The visible values for Brazil and Bolivia illustrate substantial rural progress relative to their urban ARC.
 
-This explains why Latin America & Caribbean has one of the largest positive rural–urban ARC differences.
+This pattern is consistent with the region’s high average rural ARC and positive average paired `ARC_diff`. However, the regional result is calculated from all valid countries, not only the examples visible in the screenshot.
 
 ---
 
@@ -117,21 +226,38 @@ This explains why Latin America & Caribbean has one of the largest positive rura
 
 ![Middle East & North Africa ARC Table](./04_middle_east_north_africa_arc_table.png)
 
-This table contains country-level ARC results for Middle East & North Africa.
+### Visible examples
 
-### Notable observations
+* **Morocco** has very high national and rural ARC.
+* **Iraq** also has high rural ARC.
+* **Algeria**, **Egypt**, **Oman** and **Sudan** have positive national, rural and urban ARC.
+* **Jordan** has negative national, rural and urban ARC.
+* **Syrian Arab Republic** has positive national and rural ARC but slightly negative urban ARC.
+* **Kuwait** and **Lebanon** contain unavailable rural and urban ARC.
 
-* **Morocco** records very strong national and rural progress, with rural ARC substantially higher than urban ARC.
-* **Iraq** also shows a high rural ARC compared with national and urban values.
-* **Algeria**, **Egypt**, **Oman**, and **Sudan** record positive progress.
-* **Jordan** records negative ARC values across national, rural, and urban access.
-* Some countries contain unavailable rural or urban values.
+Selected visible values:
 
-### Analytical interpretation
+| Country or area | `ARC_n` | `ARC_r` | `ARC_u` |
+| --------------- | ------: | ------: | ------: |
+| Algeria         |  0.2056 |  0.3370 |  0.1029 |
+| Iraq            |  0.8225 |  2.0137 |  0.2962 |
+| Jordan          | -0.0133 | -0.0102 | -0.0182 |
+| Morocco         |  1.3302 |  2.6347 |  0.3055 |
+| Oman            |  0.3859 |  0.3768 |  0.1646 |
+| Sudan           |  0.2997 |  0.2983 |  0.1374 |
 
-The very high rural ARC values observed in Morocco and Iraq contribute strongly to the region’s leading average rural ARC.
+### Interpretation
 
-The table confirms that the regional rural catch-up pattern is driven by substantial country-level improvements, although progress is not universal across the region.
+Morocco and Iraq illustrate the high rural ARC values present within this region.
+
+The complete regional Summary shows that Middle East & North Africa has:
+
+* the highest average rural ARC;
+* the highest average paired rural–urban ARC difference.
+
+The table also demonstrates that progress is not universal because negative and missing observations remain present.
+
+The screenshot identifies large country-level values but does not independently calculate how much each country contributes to the regional mean.
 
 ---
 
@@ -139,23 +265,29 @@ The table confirms that the regional rural catch-up pattern is driven by substan
 
 ![North America ARC Table](./05_north_america_arc_table.png)
 
-This table contains country-level ARC results for North America.
+### Visible examples
 
-### Notable observations
+* **United States of America** has positive national, rural and urban ARC.
+* **Canada** has slightly negative national and urban ARC but positive rural ARC.
+* **Greenland** has zero national, rural and urban ARC.
+* **Bermuda** has missing rural ARC.
+* **Saint Pierre and Miquelon** has missing rural and urban ARC.
 
-* **United States of America** shows positive national, rural, and urban ARC values, with rural progress higher than urban progress.
-* **Canada** records a slightly negative national ARC, a positive rural ARC, and a slightly negative urban ARC.
-* **Greenland** records zero ARC values.
-* **Bermuda** and **Saint Pierre and Miquelon** contain unavailable rural or urban values.
-* Population size varies substantially between the United States and the smaller territories represented.
+Verified visible values:
 
-### Analytical interpretation
+| Country or area          | `ARC_n` | `ARC_r` | `ARC_u` |
+| ------------------------ | ------: | ------: | ------: |
+| Canada                   | -0.0015 |  0.0489 | -0.0132 |
+| Greenland                |  0.0000 |  0.0000 |  0.0000 |
+| United States of America |  0.0873 |  0.3781 |  0.0214 |
 
-North America has relatively low regional ARC averages.
+### Interpretation
 
-This may reflect already high baseline access and limited room for further improvement rather than weak water access conditions.
+North America has the lowest regional national, rural and urban ARC averages.
 
-The table also shows that the small positive regional rural–urban difference is influenced primarily by rural improvement in the United States and Canada.
+This may be consistent with high baseline access and limited remaining room for improvement. Nevertheless, the table does not display baseline access percentages, so the explanation requires evidence from the access-level analysis.
+
+The region also illustrates the importance of missing-data treatment because only some countries have complete paired rural and urban measurements.
 
 ---
 
@@ -163,24 +295,36 @@ The table also shows that the small positive regional rural–urban difference i
 
 ![South Asia ARC Table](./06_south_asia_arc_table.png)
 
-This table contains country-level ARC results for South Asia.
+### Visible examples
 
-### Notable observations
+* **Afghanistan** has exceptionally high positive national, rural and urban ARC.
+* **India** has positive ARC across all three measures, with rural ARC higher than urban ARC.
+* **Bangladesh** has positive national and rural ARC but negative urban ARC.
+* **Nepal** and **Pakistan** also have positive national and rural ARC but negative urban ARC.
+* **Malaysia** has slightly positive national ARC but negative rural and urban ARC.
+* **Sri Lanka** has positive national, rural and urban ARC.
 
-* **Afghanistan** records exceptionally high positive ARC values across national, rural, and urban populations.
-* **India** shows positive progress, with rural ARC higher than national and urban ARC.
-* **Bangladesh** records positive national and rural progress but a negative urban ARC.
-* **Nepal** and **Pakistan** also show positive national and rural ARC values alongside negative urban ARC values.
-* **Malaysia** records slightly positive national ARC but negative rural and urban ARC values.
-* **Sri Lanka** shows positive progress across all three population areas.
+Selected visible values:
 
-### Analytical interpretation
+| Country or area | `ARC_n` | `ARC_r` | `ARC_u` |
+| --------------- | ------: | ------: | ------: |
+| Afghanistan     |  2.7503 |  2.6679 |  2.6682 |
+| Bangladesh      |  0.1193 |  0.2214 | -0.0656 |
+| India           |  0.4703 |  0.6421 |  0.0538 |
+| Malaysia        |  0.0095 | -0.1442 | -0.0081 |
+| Nepal           |  0.4532 |  0.5923 | -0.1434 |
+| Pakistan        |  0.1388 |  0.2898 | -0.1557 |
 
-South Asia combines strong country-level progress with one of the largest populations represented in the analysis.
+### Interpretation
 
-Rural access improves faster than urban access in many countries, although Afghanistan’s unusually high ARC values may have a substantial influence on the regional average.
+South Asia combines:
 
-The regional result should therefore be interpreted alongside both country-level variation and population scale.
+* one of the largest regional populations;
+* comparatively high national ARC;
+* comparatively high rural ARC;
+* substantial variation in urban outcomes.
+
+Afghanistan is an extreme positive observation and may influence unweighted regional averages. However, its exact contribution should be measured using sensitivity analysis rather than inferred from the screenshot alone.
 
 ---
 
@@ -188,110 +332,201 @@ The regional result should therefore be interpreted alongside both country-level
 
 ![Sub-Saharan Africa ARC Table](./07_sub_saharan_africa_arc_table.png)
 
-This table contains country-level ARC results for Sub-Saharan Africa.
+### Visible examples
 
-### Notable observations
+* **Botswana** and **Cabo Verde** have high positive rural ARC.
+* **Benin**, **Cameroon** and **Chad** have positive national and rural ARC but negative urban ARC.
+* **Burkina Faso** has negative national and rural ARC but slightly positive urban ARC.
+* **Central African Republic** has substantial negative national, rural and urban ARC.
+* **Comoros** has zero rural and urban ARC.
+* **Congo** has positive national, rural and urban ARC.
 
-* **Botswana** and **Cabo Verde** record strong positive rural ARC values.
-* **Burundi**, **Congo**, and several other countries show positive national and rural progress.
-* **Benin**, **Cameroon**, and **Chad** record positive national and rural ARC values but negative urban ARC values.
-* **Burkina Faso** records negative national and rural ARC values while urban ARC remains slightly positive.
-* **Central African Republic** records substantial declines across national, rural, and urban access, with the strongest decline visible in urban ARC.
-* **Comoros** shows near-zero rural and urban change.
+Selected visible values:
 
-### Analytical interpretation
+| Country or area          | `ARC_n` | `ARC_r` | `ARC_u` |
+| ------------------------ | ------: | ------: | ------: |
+| Benin                    |  0.1255 |  0.2536 | -0.2078 |
+| Botswana                 |  0.7535 |  1.4302 |  0.2165 |
+| Burkina Faso             | -0.5845 | -1.2274 |  0.0492 |
+| Cabo Verde               |  0.6653 |  1.4564 |  0.1310 |
+| Cameroon                 |  0.3493 |  0.3044 | -0.0347 |
+| Central African Republic | -1.0218 | -0.7570 | -1.6201 |
+| Chad                     |  0.3577 |  0.3993 | -0.1123 |
+| Congo                    |  0.5270 |  0.8665 |  0.0599 |
 
-Sub-Saharan Africa shows the greatest diversity in country-level ARC outcomes among the displayed tables.
+### Interpretation
 
-The region includes:
+The visible excerpt illustrates substantial country-level variation:
 
-* countries making strong progress;
-* countries with mixed rural and urban outcomes;
-* countries experiencing substantial declines.
+* strong positive progress;
+* mixed rural and urban outcomes;
+* zero change;
+* major declines.
 
-This variation explains why regional averages alone cannot fully represent the region’s water access trajectory.
+Sub-Saharan Africa has the highest regional average national ARC and a comparatively high rural ARC. However, the regional average does not represent every country’s trajectory.
 
-The table supports the conclusion that Sub-Saharan Africa is making meaningful progress overall, but progress remains uneven and some countries continue to experience serious setbacks.
+The screenshot is only an excerpt of the 53 countries and areas included in the full regional Summary.
 
 ---
 
 ## Cross-Regional Findings
 
-The seven regional tables support several broader conclusions.
+### 1. Rural ARC is frequently higher than urban ARC
 
-### 1. Rural progress is frequently higher than urban progress
+Across the complete dataset:
 
-Many countries show `ARC_r > ARC_u`, which supports the positive average `ARC_diff` values observed across all regions.
+| Paired `ARC_diff` result | Countries or areas |
+| ------------------------ | -----------------: |
+| Positive                 |                112 |
+| Negative                 |                 23 |
+| Zero                     |                 30 |
+| Missing                  |                 66 |
+| **Total**                |            **231** |
 
-This suggests that rural populations are generally catching up, although they may still have lower final access levels.
+Most valid paired observations therefore have:
 
-### 2. Regional averages hide substantial country-level variation
+```text
+ARC_r > ARC_u
+```
 
-Countries within the same region may show:
+This pattern is consistent with rural catch-up, but it does not mean that rural access levels have reached urban access levels.
 
-* strong positive progress;
-* zero change;
-* negative progress;
-* unavailable values.
+### 2. Regional averages hide country-level variation
 
-Regional averages should therefore be interpreted as summary indicators, not as uniform regional outcomes.
+Countries within the same region may have:
 
-### 3. High ARC values often reflect lower starting access
+* positive ARC;
+* zero ARC;
+* negative ARC;
+* missing ARC;
+* different national, rural and urban patterns.
 
-Countries with lower baseline access may show stronger ARC because they have more room for improvement.
+Regional means should be treated as summary indicators rather than uniform regional outcomes.
 
-A high ARC indicates faster progress, not necessarily high final access.
+### 3. High ARC does not mean high access
 
-### 4. Zero ARC requires contextual interpretation
+ARC measures the speed and direction of change.
 
-A zero ARC may indicate:
+A country can have:
 
-* no improvement below full access;
-* already complete or nearly complete access;
-* stable estimates between observations.
+* high ARC and low final access;
+* low ARC and high final access;
+* zero ARC at full access;
+* zero ARC below full access.
 
-Full-access indicators and baseline values should be reviewed before classifying zero ARC as poor performance.
+Baseline and final access values are therefore needed for complete interpretation.
 
-### 5. Negative ARC values identify priority cases
+### 4. Negative ARC identifies declining access
 
-Negative ARC values indicate that access to at least basic drinking water declined between observations.
+Negative ARC indicates that estimated access decreased between the two observations.
 
-Countries such as the Central African Republic, Burkina Faso, Bulgaria, and the Democratic People's Republic of Korea illustrate why country-level inspection is important.
+Visible examples include:
 
-### 6. Population scale changes the significance of progress
+* Central African Republic;
+* Burkina Faso;
+* Bulgaria;
+* Democratic People's Republic of Korea.
 
-Moderate ARC values in highly populated countries may affect more people than very high ARC values in small countries.
+These cases demonstrate why country-level inspection is necessary.
 
-Population and ARC should therefore be considered together when assessing potential impact.
+### 5. Missingness affects rural and urban comparisons
+
+The complete dataset contains:
+
+| Measure           | Valid | Missing |
+| ----------------- | ----: | ------: |
+| National ARC      |   229 |       2 |
+| Rural ARC         |   167 |      64 |
+| Urban ARC         |   181 |      50 |
+| Paired `ARC_diff` |   165 |      66 |
+
+Area-level results are therefore less complete than national results.
+
+### 6. Population provides context, not measured impact
+
+A large population can increase the possible scale of an access change.
+
+However, these tables do not calculate:
+
+* population-weighted ARC;
+* the number of people gaining access;
+* the number of people losing access;
+* the remaining population without access.
+
+Population and ARC should be considered together as contextual dimensions, not as a calculated measure of human impact.
+
+---
+
+## Regional Summary
+
+| Region                     | Countries or areas | Population, millions | National ARC | Rural ARC | Urban ARC |
+| -------------------------- | -----------------: | -------------------: | -----------: | --------: | --------: |
+| East Asia & Pacific        |                 40 |              2,247.5 |        0.278 |     0.508 |     0.233 |
+| Europe & Central Asia      |                 64 |              1,017.5 |        0.112 |     0.224 |     0.047 |
+| Latin America & Caribbean  |                 48 |                642.5 |        0.144 |     0.680 |     0.072 |
+| Middle East & North Africa |                 10 |                311.1 |        0.346 |     0.737 |     0.124 |
+| North America              |                  5 |                368.9 |        0.017 |     0.142 |     0.002 |
+| South Asia                 |                 11 |              2,082.3 |        0.480 |     0.559 |     0.266 |
+| Sub-Saharan Africa         |                 53 |              1,124.0 |        0.558 |     0.604 |     0.270 |
+| **Grand Total**            |            **231** |          **7,793.8** |    **0.277** | **0.484** | **0.155** |
+
+The ARC values are unweighted country averages.
+
+A small country and a highly populated country contribute equally to their respective regional ARC averages.
 
 ---
 
 ## Relationship to the Main Visuals
 
-The tables in this folder support the charts stored in:
+The aggregated charts are stored in:
 
-[`../main_visuals/`](../main_visuals/)
+[Main Visuals](../main_visuals/)
 
-The main visuals summarize:
+The main visuals summarise:
 
-* year distribution;
-* average rural–urban ARC difference by region;
-* average rural and urban ARC by region;
-* regional population size with national and rural ARC.
+* the distribution of observations by year;
+* average paired rural–urban ARC differences by region;
+* independently aggregated rural and urban ARC;
+* regional population with national and rural ARC.
 
-The regional tables provide the country-level observations behind those aggregated results.
+The regional screenshots provide supporting country-level examples behind those aggregated results.
+
+They should be interpreted together with the complete Summary rather than as independent regional rankings.
 
 ---
 
-## Data Interpretation Notes
+## Data-Interpretation Notes
 
-* ARC values are calculated between two observations for the same country.
-* The observation interval is not identical for every country.
-* Missing values represented as `Null` were retained for transparency.
-* Regional ARC figures are simple country-level averages unless otherwise specified.
-* The regional averages are not automatically population-weighted.
-* Screenshots display the Google Sheets calculation layout and may show ARC values and population values on different rows for the same country.
-* These tables should be read as supporting evidence rather than standalone regional performance rankings.
+* ARC values are calculated between two observations for the same country or area.
+* Observation intervals range from one to five years.
+* ARC is expressed in percentage points per year.
+* `Null` values were retained to preserve missing-data transparency.
+* National, rural and urban ARC have different valid sample sizes.
+* Regional ARC values are simple country averages unless stated otherwise.
+* Regional averages are not population-weighted.
+* Population values are displayed on the later observation row.
+* ARC values are generally displayed on the earlier observation row.
+* Both rows belonging to the same country should be read together.
+* Some screenshots display only a portion of the complete regional table.
+* Country examples visible in a screenshot should not be treated as the only contributors to a regional result.
+* The tables describe patterns but do not establish causality.
+
+---
+
+## Reproducibility Recommendation
+
+To strengthen this folder, future repository versions should add:
+
+* one complete CSV file for each region;
+* all countries and areas included in every regional average;
+* `ARC_diff`;
+* full-access classification fields;
+* baseline access values;
+* later access values;
+* observation interval;
+* valid-value counts for every regional calculation.
+
+Machine-readable files would make it possible to reproduce the regional averages directly from the GitHub repository.
 
 ---
 
@@ -299,12 +534,24 @@ The regional tables provide the country-level observations behind those aggregat
 
 These regional tables demonstrate:
 
-* data transformation;
+* country-level data transformation;
 * regional segmentation;
 * population-unit conversion;
-* country-level ARC calculation;
-* handling of missing values;
-* comparison of national, rural, and urban progress;
-* traceability from summary charts to underlying records.
+* country-pair ARC calculation;
+* missing-value handling;
+* comparison of national, rural and urban change;
+* traceability between individual observations and aggregated charts;
+* awareness of analytical limitations.
 
-They strengthen the portfolio by showing that the regional findings are supported by transparent country-level calculations rather than only aggregated charts.
+The tables strengthen the portfolio by showing country-level evidence while also documenting the limits of screenshot-based reporting.
+
+---
+
+## Navigation
+
+* [Back to Assets](../README.md)
+* [Open Main Visuals](../main_visuals/)
+* [Open Data Documentation](../../data/)
+* [Open Analytical Report](../../reports/analytical_report/Part2_Analytical_Report.md)
+* [Open Sheet Exports](../../reports/sheet_exports/)
+* [Back to Part 2](../../README.md)
